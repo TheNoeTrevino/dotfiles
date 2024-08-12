@@ -6,11 +6,10 @@ jdk17-openjdk
 neovim
 starship
 dbeaver
-nodejs
 npm
 ripgrep
 feh
-code
+code (Visual Studio Code)
 tmux
 postgresql
 fzf
@@ -27,9 +26,9 @@ fd
 ruby
 yarn
 xclip
-python-pip
 flameshot
 picom
 rofi
 spotify-launcher
 arandr
+less
