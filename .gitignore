@@ -1,0 +1,17 @@
+Code/
+user-dirs.dirs
+user-dirs.locale
+.gsd-keyboard.settings-ported
+dconf/
+lazygit/
+mimeapps.list
+monitors.xml
+monitors.xml~
+pavucontrol.ini
+pulse/
+systemd/
+git
+gtk-3.0/
+Code - OSS/
+yarn/
+spotify/
