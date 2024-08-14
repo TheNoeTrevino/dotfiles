@@ -25,4 +25,4 @@ family = "MesloLGS Nerd Font Mono"
 style = "Regular"
 
 [window]
-opacity = 0.85  # Adjust this value to control transparency (0.0 to 1.0)
+opacity = 0.9  # Adjust this value to control transparency (0.0 to 1.0)
