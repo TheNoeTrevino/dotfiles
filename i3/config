@@ -16,7 +16,7 @@ set $mod Mod4
 
 # setting screenlayout options
 exec --no-startup-id picom
-exec --no-startup-id ~/.config/screenlayouts/home-pc-layout.sh
+exec --no-startup-id ~/.screenlayout/home-pc.sh
 exec --no-startup-id feh  --bg-scale ~/.config/backgrounds/sunset.jpg --bg-scale ~/.config/backgrounds/space-view.png
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps
