@@ -16,8 +16,7 @@ set $mod Mod4
 
 # setting screenlayout options
 exec --no-startup-id picom
-exec --no-startup-id xrandr --output DP-0 --mode 1080x1920 --pos 0x0 --rotate left \
-                            --output DP-2 --mode 3440x1440 --pos 1080x480 --rotate normal
+exec --no-startup-id autorandr --load home
 exec --no-startup-id feh  --bg-scale ~/.config/backgrounds/sunset.jpg --bg-scale ~/.config/backgrounds/space-view.png
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps
