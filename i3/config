@@ -17,10 +17,10 @@ set $mod Mod4
 # setting screenlayout options
 exec --no-startup-id picom
 exec --no-startup-id autorandr --load home
-exec --no-startup-id feh  --bg-scale ~/.config/backgrounds/sunset.jpg --bg-scale ~/.config/backgrounds/space-view.png
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps
 exec --no-startup-id alacritty -e neofetch
+exec --no-startup-id sh -c "sleep 2 && feh --bg-scale ~/.config/backgrounds/sunset.jpg --bg-scale ~/.config/backgrounds/space-view.png"
 
 # Set keyboard repeat rate and delay
 exec_always --no-startup-id xset r rate 175 30
