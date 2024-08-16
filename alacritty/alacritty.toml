@@ -30,12 +30,6 @@ opacity = 0.9  # Adjust this value to control transparency (0.0 to 1.0)
 [cursor]
 style = "Beam"
 
-# [colors]
-# transparent_background_colors = true  # Enable transparency in background colors
-
 [colors.primary]
 background = "#000000"  # Black background
 
-[colors.cursor]
-text = "#ffffff"  # White cursor text color
-background = "#363434"  # Black cursor line (transparency applied via opacity)
