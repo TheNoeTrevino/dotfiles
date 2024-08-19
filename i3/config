@@ -18,7 +18,6 @@ set $mod Mod4
 exec --no-startup-id picom
 exec --no-startup-id autorandr --load home
 exec --no-startup-id xrdb -merge ~/.Xresources
-exec_always --no-startup-id setxkbmap -option ctrl:nocaps
 exec --no-startup-id alacritty -e neofetch
 exec --no-startup-id sh -c "sleep 2 && feh --bg-scale ~/.config/backgrounds/sunset.jpg --bg-scale ~/.config/backgrounds/space-view.png"
 
@@ -28,6 +27,7 @@ exec_always --no-startup-id xset r rate 175 30
 # kill any hanging polybar processes
 exec_always killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
+exec_always --no-startup-id ~/.config/caps-escape.sh
 
 bindsym Print exec maim "/home/$USER/Pictures/$(date).jpg"
 bindsym $mod+Print exec maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date).jpg"
@@ -230,11 +230,12 @@ set $surface0  #313244
 set $base      #1e1e2e
 set $mantle    #181825
 set $crust     #11111b
+set $inactive  #464959
 
 # target                 title     bg    text      indicator    border
-client.focused           $mantle   $mauve $mantle  $rosewater $mauve
-client.focused_inactive  $overlay0 $base  $text    $rosewater $overlay0
-client.unfocused         $overlay0 $base  $text    $rosewater $overlay0
+client.focused           $mantle   $mauve $mantle  $rosewater $overlay0
+client.focused_inactive  $overlay0 $base  $text    $rosewater $inactive
+client.unfocused         $overlay0 $base  $text    $rosewater $inactive
 client.urgent            $peach    $base  $peach   $overlay0  $peach
 client.placeholder       $overlay0 $base  $text    $overlay0  $overlay0
 client.background        $base
