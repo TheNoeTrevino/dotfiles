@@ -27,7 +27,7 @@ exec_always --no-startup-id xset r rate 175 30
 # kill any hanging polybar processes
 exec_always killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
-exec_always --no-startup-id ~/.config/caps-escape.sh
+exec_always --no-startup-id ~/.config/swap-keys.sh
 
 bindsym Print exec maim "/home/$USER/Pictures/$(date).jpg"
 bindsym $mod+Print exec maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date).jpg"
@@ -144,9 +144,9 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
-# Mod alt h & l to move around workspaces too  
-bindsym $mod+Mod1+l workspace next
-bindsym $mod+Mod1+h workspace prev
+# windows ctrl for workspaces
+bindsym Ctrl+$mod+h workspace prev
+bindsym Ctrl+$mod+l workspace next
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
