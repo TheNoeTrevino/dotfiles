@@ -27,9 +27,17 @@ style = "Regular"
 [window]
 opacity = 0.9  # Adjust this value to control transparency (0.0 to 1.0)
 
-[cursor]
-style = "Beam"
-
 [colors.primary]
 background = "#000000"  # Black background
 
+[cursor.style]
+shape                 = "Beam"
+blinking              = "Always"
+
+[cursor.vi_mode_style]
+shape                 = "Block"
+blinking              = "Off"
+
+[cursor]
+blink_interval        = 400
+blink_timeout         = 0
