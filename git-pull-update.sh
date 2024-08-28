@@ -8,6 +8,7 @@ directories=(
   "/home/noetrevino/projects/perceptron-ai"
   "/home/noetrevino/projects/django-practice"
   "/home/noetrevino/data-structures-and-algos"
+  "/home/noetrevino/.neorg"
 )
 
 for dir in "${directories[@]}"; do
