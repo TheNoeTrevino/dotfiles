@@ -18,7 +18,7 @@ set $mod Mod4
 exec --no-startup-id picom
 exec --no-startup-id autorandr --load home
 exec --no-startup-id xrdb -merge ~/.Xresources
-exec --no-startup-id alacritty -e neofetch
+exec --no-startup-id kitty -e neofetch
 exec --no-startup-id sh -c "sleep 2 && feh --bg-scale ~/.config/backgrounds/space-view.png --bg-scale ~/.config/backgrounds/sunset.jpg"
 
 # Set keyboard repeat rate and delay
@@ -27,7 +27,7 @@ exec_always --no-startup-id xset r rate 175 30
 # kill any hanging polybar processes
 exec_always killall polybar
 exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
-exec_always --no-startup-id ~/.config/swap-keys.sh
+# exec_always --no-startup-id ~/.config/swap-keys.sh
 
 bindsym Print exec maim "/home/$USER/Pictures/$(date).jpg"
 bindsym $mod+Print exec maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date).jpg"
@@ -74,7 +74,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+q kill
@@ -85,16 +85,16 @@ bindsym $mod+space exec --no-startup-id ~/.config/rofi/launchers/type-2/launcher
 bindsym $mod+Tab exec --no-startup-id rofi -show window
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -116,8 +116,11 @@ bindsym $mod+Shift+space floating toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
-# focus the child container
-#bindsym $mod+d focus child
+# Move focused window to the previous workspace
+bindsym $mod+Shift+Control+j exec --no-startup-id i3-msg "move container to workspace prev"
+
+# Move focused window to the next workspace
+bindsym $mod+Shift+Control+semicolon exec --no-startup-id i3-msg "move container to workspace next"
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -145,8 +148,8 @@ bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
 # windows ctrl for workspaces
-bindsym Ctrl+$mod+h workspace prev
-bindsym Ctrl+$mod+l workspace next
+bindsym Ctrl+$mod+j workspace prev
+bindsym Ctrl+$mod+semicolon workspace next
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
