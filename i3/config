@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 2
 
 set $mod Mod4
 # set $mod Mod1
@@ -22,7 +22,7 @@ exec --no-startup-id kitty -e neofetch
 exec --no-startup-id sh -c "sleep 2 && feh --bg-scale ~/.config/backgrounds/space-view.png --bg-scale ~/.config/backgrounds/sunset.jpg"
 
 # Set keyboard repeat rate and delay
-exec_always --no-startup-id xset r rate 100 50
+exec_always --no-startup-id xset r rate 175 50
 
 # kill any hanging polybar processes
 exec_always killall polybar
@@ -102,6 +102,14 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# Move between workspaces
+bindsym Ctrl+$mod+j workspace prev
+bindsym Ctrl+$mod+semicolon workspace next
+
+# Move container to the next/prev workspace
+# bindsym Ctrl+$mod+Shift+j move container to workspace prev
+# bindsym Ctrl+$mod+Shift+semicolon move container to workspace next
+
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
@@ -147,10 +155,6 @@ bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
-# windows ctrl for workspaces
-bindsym Ctrl+$mod+j workspace prev
-bindsym Ctrl+$mod+semicolon workspace next
-
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -162,6 +166,20 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Link first 7 workspaces to the ultrawide monitor (DP-0)
+workspace 1 output DP-0
+workspace 2 output DP-0
+workspace 3 output DP-0
+workspace 4 output DP-0
+workspace 5 output DP-0
+workspace 6 output DP-0
+workspace 7 output DP-0
+
+# Link last 3 workspaces to the portrait monitor (DP-2)
+workspace 8 output DP-2
+workspace 9 output DP-2
+workspace 10 output DP-2
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
