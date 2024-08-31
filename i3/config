@@ -22,7 +22,7 @@ exec --no-startup-id kitty -e neofetch
 exec --no-startup-id sh -c "sleep 2 && feh --bg-scale ~/.config/backgrounds/space-view.png --bg-scale ~/.config/backgrounds/sunset.jpg"
 
 # Set keyboard repeat rate and delay
-exec_always --no-startup-id xset r rate 175 30
+exec_always --no-startup-id xset r rate 100 50
 
 # kill any hanging polybar processes
 exec_always killall polybar
