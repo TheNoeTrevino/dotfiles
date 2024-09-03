@@ -260,3 +260,6 @@ client.unfocused         $overlay0 $base  $text    $rosewater $inactive
 client.urgent            $peach    $base  $peach   $overlay0  $peach
 client.placeholder       $overlay0 $base  $text    $overlay0  $overlay0
 client.background        $base
+
+# Focus on workspace 1 after a short delay to ensure everything is loaded
+exec --no-startup-id sh -c "sleep 3 && i3-msg workspace 1 && kitty"
