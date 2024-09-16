@@ -23,6 +23,11 @@ exec --no-startup-id sh -c "sleep 2 && feh --bg-scale ~/.config/backgrounds/balc
 # Open Firefox in workspace 2, then switch back to workspace 1
 exec --no-startup-id "i3-msg 'workspace 2; exec firefox; workspace 1'"
 
+# No sleeping 
+exec --no-startup-id xset s off
+exec --no-startup-id xset -dpms
+exec --no-startup-id xset s noblank
+
 # Set keyboard repeat rate and delay
 exec_always --no-startup-id xset r rate 175 50
 
