@@ -36,6 +36,7 @@
       "temperature",
       "disk",
       "memory",
+      "battery",
     ],
   },
   "group/group-3": {
@@ -50,7 +51,6 @@
     "orientation": "horizontal",
     "modules": [
       "bluetooth",
-      "battery",
       "network",
       "custom/power",
       "custom/wallpaper",
@@ -122,23 +122,6 @@
       "urgent": "*",
       "active": "*",
       "default": "*",
-    },
-    "persistent-workspaces": {
-      "DP-2": [
-        1
-      ],
-      "DP-3": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "HDMI-A-1": [
-        6,
-        7,
-        8,
-        9
-      ]
     }
   },
   "hyprland/window": {
@@ -152,7 +135,7 @@
     "show-passive-items": true,
   },
   "clock": {
-    "format": "󰢚 {:%H:%M}",
+    "format": "󰢚 {:%I:%M %p}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
     "format-alt": "{:%Y-%m-%d}",
   },
@@ -394,10 +377,10 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon}",
-    "format-full": "{icon}",
-    "format-plugged": " {capacity}% <span font='Font Awesome 5 Free'>\uf0e7</span> ",
-    "format-alt": "{icon} {capacity}%",
+    "format": "{icon}  {capacity}%",
+    "format-full": "{icon}  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-alt": "{icon}  {capacity}%",
     "tooltip-format": "{capacity}%, about {time} left",
     "format-icons": [
       "",

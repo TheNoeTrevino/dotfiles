@@ -6,4 +6,9 @@ keybinding:
     nextBlock-alt: ;
     scrollUpMain-alt1: L
     scrollDownMain-alt1: k
+
 quitOnTopLevelReturn: true
+
+git:
+  pagers:
+    - pager: delta --dark --paging=never --line-numbers
