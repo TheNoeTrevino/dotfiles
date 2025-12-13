@@ -501,8 +501,8 @@
   },
   "custom/catppuccin-theme": {
     "format": "󰏘",
-    "on-click": "~/.config/waybar/scripts/catppuccin.sh",
-    "tooltip": false,
+    "on-click": "nwg-look",
+    "tooltip": "Change theme",
   },
   "custom/keybinds": {
     "format": "",

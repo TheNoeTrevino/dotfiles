@@ -1,7 +1,7 @@
 {
-    "custom/catppuccin-theme": {
+  "custom/catppuccin-theme": {
     "format": "󰏘",
-    "on-click": "~/.config/waybar/scripts/catppuccin.sh",
+    "on-click": "nwg-look",
     "tooltip": false,
   },
 }
