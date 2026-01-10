@@ -1,0 +1,22 @@
+[Unit]
+Description=Paso Daemon - Terminal Kanban Board Real-time Sync
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/noetrevino/.local/bin/paso-daemon
+Restart=on-failure
+RestartSec=5
+
+# Security hardening
+PrivateTmp=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/home/noetrevino/.paso
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
