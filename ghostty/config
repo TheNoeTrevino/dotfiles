@@ -1,0 +1,5 @@
+background-opacity = .5
+background = #000000
+font-feature = -calt, -liga, -dlig
+
+keybind = shift+enter=text:\x1b\r
