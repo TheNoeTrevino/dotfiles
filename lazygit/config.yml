@@ -6,9 +6,13 @@ keybinding:
     nextBlock-alt: ;
     scrollUpMain-alt1: L
     scrollDownMain-alt1: k
-
-quitOnTopLevelReturn: true
-
 git:
   pagers:
     - pager: delta --dark --paging=never --line-numbers
+  commits:
+    moveDownCommit: <c-k>
+    moveUpCommit: <c-l>
+
+
+quitOnTopLevelReturn: true
+showCommandLog: false
