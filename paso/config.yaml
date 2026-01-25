@@ -28,8 +28,8 @@ key_mappings:
   next_task: "k"
   scroll_viewport_left: "["
   scroll_viewport_right: "]"
-  next_project: "{"
-  prev_project: "}"
+  next_project: "}"
+  prev_project: "{"
 
   # Other
   show_help: "?"

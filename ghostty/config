@@ -1,5 +1,8 @@
-background-opacity = .5
+background-opacity = .92
 background = #000000
 font-feature = -calt, -liga, -dlig
+font-size = 15
 
 keybind = shift+enter=text:\x1b\r
+
+mouse-scroll-multiplier = 0.8
