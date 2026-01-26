@@ -1,0 +1,8 @@
+TODO
+cwd
+env
+fastapi
+nvim
+opencode
+py
+tmux
