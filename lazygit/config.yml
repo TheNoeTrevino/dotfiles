@@ -6,6 +6,9 @@ keybinding:
     nextBlock-alt: ;
     scrollUpMain-alt1: L
     scrollDownMain-alt1: k
+  commits:
+    moveDownCommit: <c-k>
+    moveUpCommit: <c-l>
 git:
   pagers:
     - pager: delta --dark --paging=never --line-numbers
