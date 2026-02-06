@@ -3,12 +3,10 @@
   "keybinds": {
     "input_newline": "shift+return,ctrl+return,alt+return,ctrl+j,ctrl+n"
   },
-  "plugin": [
-    // "opencode-paso"
-  ],
   "permission": {
     "bash": {
       "paso *": "allow"
-    }
-  }
+    },
+  },
+  "plugin": ["opencode-pty","@franlol/opencode-md-table-formatter@0.0.3"]
 }

@@ -4,7 +4,7 @@ allowed-tools: Bash(paso:*)
 argument-hint: <instructions> 
 ---
 
-Using the paso cli, do the following:
+Using the paso cli (you can use the --help commands for reference), do the following:
 
 $ARGUMENTS
 
@@ -13,6 +13,10 @@ Then, create subtasks for the epic with the `--blocks <epic_task_id>` flag.
 
 If needed, make further subtasks under those tasks to break them down into even smaller pieces.
 You can use the `--blocks <epic_task_id>` and `--blocked-by <epic_task_id>` flags for this
+
+***Critical***:
+Make a script that creates these relationships in the paso cli, and run it to set up the task hierarchy.
+Do not run each command one by one, this will be much faster
 
 For example, the output of the `paso project tree <project-id>` command should come out to: 
 ``` bash
