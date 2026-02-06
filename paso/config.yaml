@@ -1,37 +1,36 @@
 key_mappings:
-  # Task operations
-  add_task: "a"
-  edit_task: "e"
-  delete_task: "d"
-  move_task_left: "J"
-  move_task_right: ":"
-  move_task_up: "L"
-  move_task_down: "K"
-  view_task: "o"  # space key
-  edit_labels: "l"
-
-  # Column operations
-  create_column: "C"
-  rename_column: "R"
-  delete_column: "X"
-
-  # Project operations
-  create_project: "P"
-
-  # Navigation
-  prev_column: "j"
-  next_column: ";"
-  prev_task: "l"
-  next_task: "k"
-  scroll_viewport_left: "["
-  scroll_viewport_right: "]"
-  next_project: "}"
-  prev_project: "{"
-
-  # Other
-  show_help: "?"
-  quit: "q"
-
+    add_task: a
+    edit_task: e
+    delete_task: d
+    move_task_left: J
+    move_task_right: ':'
+    move_task_up: L
+    move_task_down: K
+    view_task: o
+    edit_labels: l
+    edit_parent_task: p
+    edit_child_task: c
+    save_form: ctrl+s
+    create_column: C
+    rename_column: R
+    delete_column: X
+    create_project: P
+    edit_project: E
+    delete_project: D
+    prev_column: j
+    next_column: ;
+    prev_task: l
+    next_task: k
+    scroll_viewport_left: '['
+    scroll_viewport_right: ']'
+    next_project: '}'
+    prev_project: '{'
+    show_help: '?'
+    connect_remote: ctrl+h
+    quit: q
+    toggle_view: v
+    change_status: s
+    sort_list: S
 theme:
     preset: default
     accent: '#874BFD'
@@ -59,12 +58,12 @@ theme:
     status_bar_text: '#D0D0D0'
 databases:
     - name: NeonDB
-      connection_string: postgresql://neondb_owner:npg_6MR4XlnOsVWB@ep-patient-cherry-ah0k7f0y-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_6MR4XlnOsVWB@ep-patient-cherry-ah0k7f0y-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      connection_string: "true"
       type: postgres
-    - name: ""
-      connection_string: /.paso
-      type: sqlite
     - name: local
       connection_string: /home/noetrevino/.paso/tasks.db
       type: sqlite
+    - name: PiConnection
+      connection_string: postgresql://noetrevino:noeiscool123@100.70.107.59:5432/paso
+      type: postgres
 active_database: local
