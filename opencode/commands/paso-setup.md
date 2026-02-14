@@ -1,39 +1,44 @@
 ---
-description: Split up current identified tasks into smaller, manageable subtasks with dependency links in the paso cli.
+description: Organize tasks into EPICs with dependency hierarchies using paso.
 allowed-tools: Bash(paso:*)
-argument-hint: <instructions> 
+argument-hint: <instructions>
 ---
 
-Using the paso cli (you can use the --help commands for reference), do the following:
+Use the paso skill to understand the paso CLI commands and workflows.
 
 $ARGUMENTS
 
-Organize the current tasks by creating overarching tasks with 'EPIC: ' in the task title. 
-Then, create subtasks for the epic with the `--blocks <epic_task_id>` flag.
+Your goal is to organize the current tasks into a well-structured hierarchy:
 
-If needed, make further subtasks under those tasks to break them down into even smaller pieces.
-You can use the `--blocks <epic_task_id>` and `--blocked-by <epic_task_id>` flags for this
+1. Run `paso project tree <project-id>` to see the current state
+2. Create overarching tasks with "EPIC: " in the title
+3. Create subtasks using the `--blocks <epic_task_id>` flag (or `-B`) to establish
+   blocking relationships so the EPIC is blocked until subtasks are done
+4. If needed, create further subtasks under those with `--blocked-by` and `--blocks`
 
-***Critical***:
-Make a script that creates these relationships in the paso cli, and run it to set up the task hierarchy.
-Do not run each command one by one, this will be much faster
+Use a bash for-loop or script to create tasks in bulk rather than one-by-one:
 
-For example, the output of the `paso project tree <project-id>` command should come out to: 
-``` bash
+```bash
+EPIC=$(paso task create -t "EPIC: Frontend Feature" -p 1 -T feature -q)
+for title in "Add homepage layout" "Create Sidebar component" "Create Navbar component"; do
+  paso task create -t "$title" -p 1 -B $EPIC -q
+done
+```
+
+The resulting `paso project tree` should show a logical hierarchy:
+```
 EPIC: Frontend Feature
   L BLOCKER - Add homepage layout
     L BLOCKER - Create Sidebar component
     L BLOCKER - Create Navbar component
 ```
 
-This should be extremely logical, and follow the agile method of breaking down tasks into smaller,
-manageable pieces with clear dependencies.
+Follow the agile method of breaking down tasks into smaller, manageable pieces
+with clear dependencies.
 
-Once these tasks are organized add comments to each task explaining the purpose of the task and any relevant details like
-related files, similar implementations, etc...
+Once organized, add comments to each task explaining its purpose, related files,
+and any relevant implementation details. Use `-a opencode` (or your agent name)
+as the author.
 
-For example, for the task "Create navbar layout", you might add a comments like:
-  - If a user is logged in, show their profile picture and a logout button.
-  - Use the @./services/auth-service.ts to determine if a user is logged in, and adjust the navbar accordingly.
-
-Run the `paso project tree <project-id>` to ensure everything looks correct. Then, give suggestions on what epic should be worked on. 
+Run `paso project tree <project-id>` to verify the structure, then suggest which
+EPIC should be worked on first.
