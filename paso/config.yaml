@@ -7,7 +7,7 @@ key_mappings:
     move_task_up: L
     move_task_down: K
     view_task: o
-    edit_labels: l
+    edit_labels: ctrl+l
     edit_parent_task: p
     edit_child_task: c
     save_form: ctrl+s
