@@ -1,11 +1,7 @@
 ---
 name: paso-scrum-master
-description: Create consistent releases and changelogs
+description: Manage tasks, dependencies, and project workflows using the paso CLI. Use this skill to create, update, and track tasks in a paso project. Always use paso commands for task management instead of markdown TODOs or other tools. Follow the critical rules for tracking work and dependencies to ensure clear visibility into project status.
 license: MIT
-compatibility: opencode
-metadata:
-  audience: maintainers
-  workflow: github
 ---
 
 ## What I do
