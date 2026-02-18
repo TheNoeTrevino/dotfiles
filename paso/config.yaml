@@ -8,6 +8,10 @@ key_mappings:
     move_task_down: K
     view_task: o
     edit_labels: ctrl+l
+    edit_priority: ctrl+r
+    edit_assignee: ctrl+a
+    edit_estimate: ctrl+e
+    edit_due_date: ctrl+d
     edit_parent_task: p
     edit_child_task: c
     save_form: ctrl+s
@@ -40,7 +44,7 @@ theme:
     delete: '#FF0000'
     blocked: '#EF4444'
     column_border: '#5F87D7'
-    column_background: ""
+    column_background: '#262626'
     task_border: '#585858'
     task_background: '#262626'
     selected_border: '#D75FD7'
@@ -67,3 +71,4 @@ databases:
       connection_string: postgresql://noetrevino:noeiscool123@100.70.107.59:5432/paso
       type: postgres
 active_database: local
+active_assignee: opencode
