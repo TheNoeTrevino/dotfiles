@@ -19,7 +19,6 @@ Check for these things:
 
 Give me a list of the comments that require changes in this format: 
 
-```
 1. DRY Violation: NextMonth() and PrevMonth() Duplication (date_picker_state.go:86-112)
 - Severity: High
 - Location: internal/tui/state/date_picker_state.go
@@ -27,4 +26,3 @@ Give me a list of the comments that require changes in this format:
 - Value: High - This is core navigation logic that will be maintained long-term. The duplication creates significant risk of bugs if one function is updated but not the other
 - Recommendation: ✓ Implement - Extract to `changeMonth(delta int)` helper as suggested
 - Effort: Low 
-```

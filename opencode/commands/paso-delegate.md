@@ -15,7 +15,8 @@ $ARGUMENTS
    - Instructions to run `paso task in-progress <task-id>` before starting work
 4. Ensure subagents work on different tasks to avoid file conflicts
 
-Do not move tasks to done until all subagents have completed and reported back.
+Have the subagents move the tasks to done when they finish their work.
+Do not wait until they are _all_ done.
 
 After all subagents finish:
 - Lint, test, and build the project to ensure everything works
