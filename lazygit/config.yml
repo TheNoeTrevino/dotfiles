@@ -9,11 +9,9 @@ keybinding:
   commits:
     moveDownCommit: <c-k>
     moveUpCommit: <c-l>
-
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --config ~/.config/delta/.gitconfig --hunk-header-decoration-style ""
-
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --config ~/.config/delta/.gitconfig --hunk-header-decoration-style ""
 quitOnTopLevelReturn: true
 showCommandLog: false
