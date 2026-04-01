@@ -1,10 +1,9 @@
 [Unit]
 Description=Paso Daemon - Terminal Kanban Board Real-time Sync
-After=network.target
 
 [Service]
 Type=simple
-ExecStart=/home/noetrevino/.local/bin/paso-daemon
+ExecStart=/home/noetrevino/.local/bin/paso daemon start
 Restart=on-failure
 RestartSec=5
 

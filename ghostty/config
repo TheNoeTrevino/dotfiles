@@ -4,5 +4,7 @@ font-feature = -calt, -liga, -dlig
 font-size = 10
 
 keybind = shift+enter=text:\x1b\r
+keybind = alt+shift+period=text:\x1b>
+keybind = alt+shift+comma=text:\x1b<
 
 mouse-scroll-multiplier = 0.8
