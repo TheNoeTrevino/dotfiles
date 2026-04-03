@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 LAPTOP="eDP-1"
+LOG="/tmp/monitors.log"
+log() { echo "[$(date '+%H:%M:%S')] $*" >> "$LOG"; }
 # Identify monitors by description substring (stable across DP name changes)
-PORTRAIT_DESC="XVNNT8B7ASQL"  # Dell U2417H - portrait left
-MAIN_DESC="AW2725QF"          # Dell AW2725QF - 4K center
+PORTRAIT_DESC="XVNNT8B7ASQL" # Dell U2417H - portrait left
+MAIN_DESC="AW2725QF"         # Dell AW2725QF - 4K center
 SIDE_DESC="XVNNT73E864L"     # Dell U2417H - landscape right
 
 # Find DP name by matching description
@@ -15,17 +17,19 @@ find_monitor() {
 }
 
 apply_docked() {
+  log "apply_docked: start"
   local portrait main side
   portrait=$(find_monitor "$PORTRAIT_DESC")
   main=$(find_monitor "$MAIN_DESC")
   side=$(find_monitor "$SIDE_DESC")
+  log "apply_docked: portrait=$portrait main=$main side=$side"
 
   # Disable laptop, no caps:swapescape
   hyprctl keyword input:kb_options ""
   hyprctl keyword monitor "$LAPTOP, disable"
 
   # Portrait left: 1080x1920 logical after transform
-  [[ -n "$portrait" ]] && hyprctl keyword monitor "$portrait, 1920x1080@60, 0x0, 1, transform, 1"
+  [[ -n "$portrait" ]] && hyprctl keyword monitor "$portrait, preferred, 0x0, 1, transform, 1"
   # 4K center: x=1080 (portrait logical width), scale 1.5 -> 2560x1440 logical
   [[ -n "$main" ]] && hyprctl keyword monitor "$main, highrr, 1080x0, 1.5"
   # Landscape right: x = 1080 + 2560 = 3640
@@ -53,8 +57,12 @@ apply_docked() {
 }
 
 apply_laptop_only() {
-  hyprctl keyword input:kb_options "caps:swapescape"
-  hyprctl keyword monitor "$LAPTOP, highrr, auto, 2"
+  log "apply_laptop_only: start"
+  local result
+  result=$(hyprctl keyword input:kb_options "caps:swapescape" 2>&1)
+  log "apply_laptop_only: kb_options result=$result"
+  result=$(hyprctl keyword monitor "$LAPTOP, highrr, auto, 2" 2>&1)
+  log "apply_laptop_only: monitor enable result=$result"
 
   for ws in 1 2 3 4 5 6 7 8 9; do
     hyprctl keyword workspace "$ws, monitor:$LAPTOP"
@@ -63,7 +71,10 @@ apply_laptop_only() {
 }
 
 is_docked() {
-  hyprctl monitors all | grep -qv "^Monitor $LAPTOP "
+  local monitors
+  monitors=$(hyprctl monitors all | grep "^Monitor ")
+  log "is_docked: monitors=[$monitors]"
+  echo "$monitors" | grep -qv "^Monitor $LAPTOP "
 }
 
 apply_layout() {
@@ -81,19 +92,33 @@ handle() {
   local data="${parts[1]}"
 
   case "$event" in
-  monitorremoved)
+  monitorremoved | monitoradded)
+    log "handle: event=$event data=$data"
     sleep 0.5
     apply_layout
     ;;
-  monitoradded)
-    [[ "$data" != "$LAPTOP" ]] && sleep 0.5 && apply_docked
-    ;;
   esac
 }
+
+# Re-evaluate on SIGUSR1 (sent by lid switch bindings in hyprland.conf)
+trap 'apply_layout' USR1
 
 # Initial layout on startup
 apply_layout
 
 # Listen for monitor hotplug events
-socat -U - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" |
-  while IFS= read -r line; do handle "$line"; done
+if command -v socat &>/dev/null; then
+  socat -U - "UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock" |
+    while IFS= read -r line; do handle "$line"; done
+else
+  log "WARN: socat not found, falling back to polling"
+  prev_docked=$(is_docked && echo y || echo n)
+  while sleep 2; do
+    curr_docked=$(is_docked && echo y || echo n)
+    if [[ "$curr_docked" != "$prev_docked" ]]; then
+      log "poll: dock state changed ($prev_docked -> $curr_docked)"
+      apply_layout
+      prev_docked="$curr_docked"
+    fi
+  done
+fi
