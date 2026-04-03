@@ -36,6 +36,7 @@
       "temperature",
       "disk",
       "memory",
+      "battery",
     ],
   },
   "group/group-3": {
@@ -50,7 +51,6 @@
     "orientation": "horizontal",
     "modules": [
       "bluetooth",
-      "battery",
       "network",
       "custom/power",
       "custom/wallpaper",
@@ -394,8 +394,8 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon}",
-    "format-full": "{icon}",
+    "format": "{icon}  {capacity}%",
+    "format-full": "{icon}  {capacity}%",
     "format-plugged": " {capacity}% <span font='Font Awesome 5 Free'>\uf0e7</span> ",
     "format-alt": "{icon} {capacity}%",
     "tooltip-format": "{capacity}%, about {time} left",
