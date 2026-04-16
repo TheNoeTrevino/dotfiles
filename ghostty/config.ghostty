@@ -1,0 +1,5 @@
+font-feature = -dlig
+font-feature = -liga
+
+mouse-hide-while-typing = true
+background-opacity = 0.8
