@@ -8,6 +8,11 @@ PORTRAIT_DESC="XVNNT8B7ASQL" # Dell U2417H - portrait left
 MAIN_DESC="AW2725QF"         # Dell AW2725QF - 4K center
 SIDE_DESC="XVNNT73E864L"     # Dell U2417H - landscape right
 
+WALLPAPER_DIR="$HOME/.config/wallpapers"
+PORTRAIT_WALL="$WALLPAPER_DIR/samurai-cat.png"
+MAIN_WALL="$WALLPAPER_DIR/chainsaw-man-the-5120x2880-23852.jpg"
+SIDE_WALL="$WALLPAPER_DIR/chainsaw-man-the-5120x2880-23852.jpg"
+
 # Find DP name by matching description
 find_monitor() {
   hyprctl monitors all | awk -v desc="$1" '
@@ -54,6 +59,18 @@ apply_docked() {
     done
     hyprctl keyword workspace "6, monitor:$side, default:true"
   fi
+
+  apply_wallpapers "$portrait" "$main" "$side"
+}
+
+apply_wallpapers() {
+  # Skip if awww-daemon isn't running
+  pgrep -x awww-daemon >/dev/null || { log "apply_wallpapers: awww-daemon not running"; return; }
+  local portrait="$1" main="$2" side="$3"
+  log "apply_wallpapers: portrait=$portrait main=$main side=$side"
+  [[ -n "$portrait" ]] && awww img "$PORTRAIT_WALL" --outputs "$portrait"
+  [[ -n "$main" ]] && awww img "$MAIN_WALL" --outputs "$main"
+  [[ -n "$side" ]] && awww img "$SIDE_WALL" --outputs "$side"
 }
 
 apply_laptop_only() {
