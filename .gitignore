@@ -30,3 +30,7 @@ ibus
 /discord
 /nvm
 /spotify
+/jellyfin-desktop
+/systemd/user
+/user-dirs.dirs
+/user-dirs.locale
