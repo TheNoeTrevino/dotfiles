@@ -12,6 +12,7 @@ WALLPAPER_DIR="$HOME/.config/wallpapers"
 PORTRAIT_WALL="$WALLPAPER_DIR/samurai-cat.png"
 MAIN_WALL="$WALLPAPER_DIR/chainsaw-man-the-5120x2880-23852.jpg"
 SIDE_WALL="$WALLPAPER_DIR/chainsaw-man-the-5120x2880-23852.jpg"
+LAPTOP_WALL="$WALLPAPER_DIR/chainsaw-man-the-5120x2880-23852.jpg"
 
 # Find DP name by matching description
 find_monitor() {
@@ -85,6 +86,14 @@ apply_laptop_only() {
     hyprctl keyword workspace "$ws, monitor:$LAPTOP"
   done
   hyprctl keyword workspace "1, monitor:$LAPTOP, default:true"
+
+  apply_laptop_wallpaper
+}
+
+apply_laptop_wallpaper() {
+  pgrep -x awww-daemon >/dev/null || { log "apply_laptop_wallpaper: awww-daemon not running"; return; }
+  log "apply_laptop_wallpaper: setting $LAPTOP_WALL on $LAPTOP"
+  awww img "$LAPTOP_WALL" --outputs "$LAPTOP"
 }
 
 is_docked() {
