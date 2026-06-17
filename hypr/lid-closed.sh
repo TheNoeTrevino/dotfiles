@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-# Triggered by Hyprland's lid-close bind. Re-runs the monitor layout,
-# then suspends only if no external monitors are connected.
+# Triggered by Hyprland's lid-close bind. Suspends only if no external
+# monitors are connected. Display layout itself is handled by kanshi,
+# which reacts to monitor hotplug automatically.
 
 LAPTOP="eDP-1"
 LOG="/tmp/monitors.log"
 log() { echo "[$(date '+%H:%M:%S')] lid-closed: $*" >> "$LOG"; }
-
-pkill -USR1 -f 'monitors\.sh'
-
-# Give monitors.sh a moment to apply the layout before we check dock state.
-sleep 0.3
 
 if hyprctl monitors all | grep "^Monitor " | grep -qv "^Monitor $LAPTOP "; then
   log "external monitors present, not suspending"

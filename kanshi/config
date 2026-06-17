@@ -1,0 +1,34 @@
+# kanshi output profiles
+# Matched by "make model serial" — stable across DP-x renumbering.
+# Layout (left -> right): ASUS VP229 | Dell AW2725QF | Lenovo S27q-10
+# Workspaces / keyboard handled by the exec hook scripts.
+
+profile docked {
+    output eDP-1 disable
+
+    # Left: ASUS VP229 (1080p) in portrait, bottom-edge-left -> transform 90
+    # Rotated logical size is 1080x1920 wide.
+    output "ASUSTek COMPUTER INC VP229 T3LMQS142415" enable mode 1920x1080@60 position 0,0 scale 1 transform 90
+
+    # Middle: Dell AW2725QF (4K) at scale 1.5 -> 2560x1440 logical, x = 1080
+    output "Dell Inc. AW2725QF CQF2D34" enable mode 3840x2160@120 position 1080,0 scale 1.5
+
+    # Right: Lenovo S27q-10 (1440p), logical 2560 wide, x = 1080 + 2560
+    output "Lenovo Group Limited LEN S27q-10 V5XT8124" enable mode 2560x1440@60 position 3640,0 scale 1
+
+    exec ~/.config/hypr/on-docked.sh
+}
+
+profile aw-only {
+    output eDP-1 disable
+
+    # Sole monitor: Dell AW2725QF (4K) at scale 1.5 -> 2560x1440 logical
+    output "Dell Inc. AW2725QF CQF2D34" enable mode 3840x2160@120 position 0,0 scale 1.5
+
+    exec ~/.config/hypr/on-aw-only.sh
+}
+
+profile laptop {
+    output eDP-1 enable mode 2880x1920@120 position 0,0 scale 2
+    exec ~/.config/hypr/on-laptop.sh
+}
