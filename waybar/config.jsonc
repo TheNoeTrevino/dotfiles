@@ -523,7 +523,7 @@
   },
   "custom/keybinds": {
     "format": "",
-    "on-click": "~/.config/rofi/shortcut/script.sh",
+    "on-click": "~/.config/keybind-cheat-sheet.sh",
     "tooltip": false,
   },
   "network#speed": {
