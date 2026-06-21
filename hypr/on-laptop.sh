@@ -13,3 +13,6 @@ for ws in 1 2 3 4 5 6 7 8 9; do
   hyprctl keyword workspace "$ws, monitor:$LAPTOP"
 done
 hyprctl keyword workspace "1, monitor:$LAPTOP, default:true"
+
+# Clear external-monitor brightness cache (back to laptop backlight).
+: > "${XDG_RUNTIME_DIR:-/tmp}/ddc-buses"

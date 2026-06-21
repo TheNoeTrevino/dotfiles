@@ -42,3 +42,6 @@ if [[ -n "$right" ]]; then
   done
   hyprctl keyword workspace "6, monitor:$right, default:true"
 fi
+
+# Refresh the external-monitor brightness bus cache (ddc-brightness.sh).
+~/.config/hypr/ddc-cache.sh &

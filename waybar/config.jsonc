@@ -44,7 +44,7 @@
     "modules": [
       "clock",
       "wireplumber",
-      "backlight",
+      "custom/brightness",
     ],
   },
   "group/group-4": {
@@ -407,11 +407,14 @@
       ""
     ]
   },
-  "backlight/slider": {
-    "min": 0,
-    "max": 100,
-    "orientation": "horizontal",
-    "device": "intel_backlight",
+  "custom/brightness": {
+    "format": "󰃟 {}%",
+    "exec": "~/.config/hypr/ddc-brightness.sh status",
+    "interval": 30,
+    "signal": 9,
+    "on-scroll-up": "~/.config/hypr/ddc-brightness.sh up",
+    "on-scroll-down": "~/.config/hypr/ddc-brightness.sh down",
+    "tooltip-format": "Brightness — scroll to adjust\n(all external monitors when docked)",
   },
   "mpris": {
     "format": "{player_icon} {title} - {artist} ",

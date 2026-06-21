@@ -23,3 +23,6 @@ if [[ -n "$aw" ]]; then
   done
   hyprctl keyword workspace "1, monitor:$aw, default:true"
 fi
+
+# Refresh the external-monitor brightness bus cache (ddc-brightness.sh).
+~/.config/hypr/ddc-cache.sh &
