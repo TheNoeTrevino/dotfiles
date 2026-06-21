@@ -50,6 +50,7 @@
   "group/group-4": {
     "orientation": "horizontal",
     "modules": [
+      "custom/notification",
       "bluetooth",
       "network",
       "custom/power",
