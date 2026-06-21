@@ -34,3 +34,4 @@ ibus
 /systemd/user
 /user-dirs.dirs
 /user-dirs.locale
+/stripe
