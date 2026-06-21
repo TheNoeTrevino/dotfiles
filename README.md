@@ -13,11 +13,13 @@
 - [hyprlock](hypr/hyprlock.conf) - lock screen
 - [wlogout](wlogout/) - logout menu
 - [btop](btop/btop.conf) - system monitor
+- hyprcap 
 - hyprpicker - color picker
 - hyprshot - screenshot tool
 - zoxide - smart cd
 - swaync - notification daemon
-- hyprcap 
+- kanshi - monitor manager
+- wtype - allows for some of the fancier keys
 
 lazydocker:
 ``` bash
