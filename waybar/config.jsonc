@@ -13,7 +13,7 @@
   "modules-left": [
     "group/group-1",
     "group/group-9",
-    "group/group-10",
+    "group/group-10"
   ],
   "modules-center": [
     "group/group-5"
@@ -26,8 +26,8 @@
   "group/group-1": {
     "orientation": "horizontal",
     "modules": [
-      "hyprland/workspaces",
-    ],
+      "hyprland/workspaces"
+    ]
   },
   "group/group-2": {
     "orientation": "horizontal",
@@ -36,16 +36,16 @@
       "temperature",
       "disk",
       "memory",
-      "battery",
-    ],
+      "battery"
+    ]
   },
   "group/group-3": {
     "orientation": "horizontal",
     "modules": [
       "clock",
       "wireplumber",
-      "custom/brightness",
-    ],
+      "custom/brightness"
+    ]
   },
   "group/group-4": {
     "orientation": "horizontal",
@@ -53,37 +53,36 @@
       "custom/notification",
       "bluetooth",
       "network",
-      "custom/power",
-      "custom/wallpaper",
-    ],
+      "custom/wallpaper"
+    ]
   },
   "group/group-5": {
     "orientation": "horizontal",
     "modules": [
-      "hyprland/window",
-    ],
+      "hyprland/window"
+    ]
   },
   "group/group-6": {
     "orientation": "horizontal",
     "modules": [
-      "clock",
-    ],
+      "clock"
+    ]
   },
   "group/group-8": {
     "orientation": "horizontal",
     "modules": [
       "custom/discord",
       "custom/spotify",
-      "custom/firefox",
-    ],
+      "custom/firefox"
+    ]
   },
   "group/group-7": {
     "orientation": "horizontal",
     "modules": [
       "custom/whatsapp",
       "custom/github",
-      "custom/reddit",
-    ],
+      "custom/reddit"
+    ]
   },
   "group/group-9": {
     "orientation": "horizontal",
@@ -91,17 +90,16 @@
       "mpris",
       "custom/previous",
       "custom/pause",
-      "custom/next",
-    ],
+      "custom/next"
+    ]
   },
   "group/group-10": {
     "orientation": "horizontal",
     "modules": [
-      "custom/catppuccin-theme",
       "custom/keybinds",
       "idle_inhibitor",
-      "custom/pacman",
-    ],
+      "custom/pacman"
+    ]
   },
   // Modules configuration
   "hyprland/workspaces": {
@@ -122,7 +120,7 @@
       "10": "*",
       "urgent": "*",
       "active": "*",
-      "default": "*",
+      "default": "*"
     },
     "persistent-workspaces": {
       "DP-2": [
@@ -145,17 +143,17 @@
   "hyprland/window": {
     "format": " 󰶞 {}",
     "max-length": 32,
-    "separate-outputs": false,
+    "separate-outputs": false
   },
   "tray": {
     "icon-size": 16,
     "spacing": 5,
-    "show-passive-items": true,
+    "show-passive-items": true
   },
   "clock": {
     "format": "󰥔 {:%I:%M %p}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format-alt": "{:%Y-%m-%d}",
+    "format-alt": "{:%Y-%m-%d}"
   },
   "temperature": {
     "thermal-zone": 2,
@@ -169,20 +167,20 @@
       "",
       ""
     ],
-    "on-click": "ghostty -e zsh -c 'btop; exec zsh'",
+    "on-click": "ghostty -e zsh -c 'btop; exec zsh'"
   },
   "cpu": {
     "interval": 2,
     "format": " {usage:>2}%",
-    "on-click": "ghostty -e zsh -c 'btop; exec zsh'",
+    "on-click": "ghostty -e zsh -c 'btop; exec zsh'"
   },
   "memory": {
     "interval": 2,
-    "format": "  {:>2}%",
+    "format": "  {:>2}%"
   },
   "disk": {
     "interval": 15,
-    "format": "󰋊{percentage_used:>2}%",
+    "format": "󰋊{percentage_used:>2}%"
   },
   "backlight": {
     // "device": "acpi_video1",
@@ -197,7 +195,7 @@
       "",
       "",
       ""
-    ],
+    ]
   },
   "bluetooth": {
     "format": "{icon}",
@@ -273,9 +271,9 @@
         "",
         "",
         ""
-      ],
+      ]
     },
-    "on-click": "pavucontrol",
+    "on-click": "pavucontrol"
   },
   "wireplumber": {
     "format": "{icon} {volume:>3}%",
@@ -286,7 +284,7 @@
       "",
       "",
       ""
-    ],
+    ]
   },
   "cava": {
     "cava_config": "~/.config/cava/config",
@@ -316,15 +314,15 @@
       "█"
     ],
     "actions": {
-      "on-click-right": "mode",
-    },
+      "on-click-right": "mode"
+    }
   },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
       "activated": "󰅶",
-      "deactivated": "󰛊",
-    },
+      "deactivated": "󰛊"
+    }
   },
   // Module Custom
   "custom/pkg-aur": {
@@ -339,7 +337,7 @@
     "format-icons": "", //  
     "exec-on-event": "true",
     "on-click": "wlogout",
-    "tooltip-format": "Power Menu",
+    "tooltip-format": "Power Menu"
   },
   "custom/pacman": {
     "format": "󰮯 {} ",
@@ -347,7 +345,7 @@
     "exec": "checkupdates | wc -l", // # of updates
     "exec-if": "exit 0", // always run; consider advanced run conditions
     "on-click": "ghostty -e zsh -c 'sudo pacman -Syu; exec zsh'", // update system
-    "signal": 8,
+    "signal": 8
   },
   "custom/notification": {
     "tooltip": false,
@@ -360,14 +358,14 @@
       "inhibited-notification": "<span foreground='red'><sup></sup></span>",
       "inhibited-none": "",
       "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
-      "dnd-inhibited-none": "",
+      "dnd-inhibited-none": ""
     },
     "return-type": "json",
     "exec-if": "which swaync-client",
     "exec": "swaync-client -swb",
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
-    "escape": true,
+    "escape": true
   },
   "keyboard-state": {
     "numlock": false,
@@ -375,8 +373,8 @@
     "format": "{icon}",
     "format-icons": {
       "locked": " ",
-      "unlocked": " ",
-    },
+      "unlocked": " "
+    }
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -387,7 +385,7 @@
     "ignore-list": [
       "kitty",
       "Alacritty"
-    ],
+    ]
   },
   "battery": {
     "states": {
@@ -414,7 +412,7 @@
     "signal": 9,
     "on-scroll-up": "~/.config/hypr/ddc-brightness.sh up",
     "on-scroll-down": "~/.config/hypr/ddc-brightness.sh down",
-    "tooltip-format": "Brightness — scroll to adjust\n(all external monitors when docked)",
+    "tooltip-format": "Brightness — scroll to adjust\n(all external monitors when docked)"
   },
   "mpris": {
     "format": "{player_icon} {title} - {artist} ",
@@ -430,13 +428,13 @@
     "tooltip-format": "Playing: {title} - {artist}",
     "tooltip-format-paused": "Paused: {title} - {artist}",
     "min-length": 5,
-    "max-length": 18,
+    "max-length": 18
   },
   // Custom module configuration for waybar personalization modules.
   "custom/github": {
     "format": "",
     "on-click": "xdg-open https://github.com",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/firefox": {
     "format": "󰈹 ",
@@ -446,54 +444,54 @@
   "custom/reddit": {
     "format": " ",
     "on-click": "xdg-open https://reddit.com",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/spotify": {
     "format": "",
     "on-click": "spotify",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/discord": {
     "format": " ",
     "on-click": "discord",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/separator": {
     "format": "|",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/wallpaper": {
     "format": " ",
     "on-click": "~/.config/waybar/scripts/wallpaper-select.sh",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/whatsapp": {
     "format": "󰖣",
     "on-click": "xdg-open https://web.whatsapp.com",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/instagram": {
     "format": "",
     "on-click": "xdg-open https://wwww.instagram.com",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/ip": {
     "format": {},
     "exec": "~/.config/waybar/scripts/ip.sh",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/weather": {
     "format": "󰖐",
     "format-alt": "󰖐 {}",
     "exec": "~/.config/waybar/scripts/weather.sh",
-    "tooltip": false,
+    "tooltip": false
   },
   // Experimental module for music player of playerctl
   // this module; Next, Pause, Previous 
   "custom/next": {
     "format": "󰙡 ",
     "on-click": "playerctl --player=spotify next && playerctl --player=youtube-music next",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/pause": {
     "format": "{icon}",
@@ -503,12 +501,12 @@
     "format-icons": [
       "",
       ""
-    ],
+    ]
   },
   "custom/previous": {
     "format": "󰙣",
     "on-click": "playerctl --player=spotify previous && playerctl --player=youtube-music previous",
-    "tooltip": false,
+    "tooltip": false
   },
   "custom/music": {
     "exec": "playerctl -p $(playerctl -l | head -n 1) status",
@@ -520,15 +518,10 @@
     "icon": "",
     "max-length": 15
   },
-  "custom/catppuccin-theme": {
-    "format": "󰏘",
-    "on-click": "~/.config/waybar/scripts/catppuccin.sh",
-    "tooltip": false,
-  },
   "custom/keybinds": {
     "format": "",
     "on-click": "~/.config/keybind-cheat-sheet.sh",
-    "tooltip": false,
+    "tooltip": false
   },
   "network#speed": {
     "interval": 1,
@@ -542,6 +535,6 @@
     "tooltip-format-ethernet": "{ifname} 󰌘",
     "tooltip-format-disconnected": "󰌙 Disconnected",
     "max-length": 16,
-    "min-length": 14,
-  },
+    "min-length": 14
+  }
 }
