@@ -26,3 +26,6 @@ fi
 
 # Refresh the external-monitor brightness bus cache (ddc-brightness.sh).
 ~/.config/hypr/ddc-cache.sh &
+
+# Apply per-monitor wallpapers (serial-keyed; see hypr/wallpaper.conf).
+~/.config/hypr/wallpaper.sh &

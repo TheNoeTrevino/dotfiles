@@ -16,3 +16,6 @@ hyprctl keyword workspace "1, monitor:$LAPTOP, default:true"
 
 # Clear external-monitor brightness cache (back to laptop backlight).
 : > "${XDG_RUNTIME_DIR:-/tmp}/ddc-buses"
+
+# Apply the laptop wallpaper (WP_MAIN; see hypr/wallpaper.conf).
+~/.config/hypr/wallpaper.sh &
