@@ -11,7 +11,7 @@ no_sort = true
 frecency = false
 
 [preview]
-command = "git show -p --stat --pretty=fuller --color=always '{0|strip_ansi}'"
+command = "git show -p --stat --pretty=fuller '{0|strip_ansi}' | delta"
 
 [keybindings]
 ctrl-o = "actions:checkout"

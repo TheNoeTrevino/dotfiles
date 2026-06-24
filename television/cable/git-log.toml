@@ -11,7 +11,7 @@ no_sort = true
 frecency = false
 
 [preview]
-command = "git show -p --stat --pretty=fuller --color=always '{strip_ansi|split: :1}' | head -n 1000"
+command = "git show -p --stat --pretty=fuller '{strip_ansi|split: :1}' | delta"
 
 [keybindings]
 ctrl-y = "actions:cherry-pick"

@@ -7,7 +7,7 @@ requirements = ["git"]
 command = "git diff --name-only HEAD"
 
 [preview]
-command = "git diff HEAD --color=always -- '{}'"
+command = "git diff HEAD -- '{}' | delta"
 
 [ui]
 layout = "portrait"

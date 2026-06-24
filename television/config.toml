@@ -246,6 +246,8 @@ fallback_channel = "files"
 "git-log" = ["git log", "git show"]
 "docker-images" = ["docker run"]
 "git-repos" = ["nvim", "code", "hx", "git clone"]
+# journalctl/systemctl -> pick a systemd unit name (e.g. `journalctl -u <unit>`)
+"systemd-units" = ["journalctl", "journalctl -u", "systemctl"]
 
 
 [shell_integration.keybindings]

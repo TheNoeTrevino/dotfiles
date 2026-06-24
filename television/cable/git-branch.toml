@@ -8,7 +8,7 @@ command = "git --no-pager branch --all --format=\"%(refname:short)\""
 output = "{split: :0}"
 
 [preview]
-command = "git show -p --stat --pretty=fuller --color=always '{0}'"
+command = "git show -p --stat --pretty=fuller '{0}' | delta"
 
 [keybindings]
 enter = "actions:checkout"
