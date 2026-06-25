@@ -2,7 +2,7 @@ echo "[ 1/5 ] Installing yay..."
 sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
 echo "[ 2/5 ] Installing packages through yay..."
-yay -S --needed bat delta eza lazygit fzf curl go go-sqlcmd git-delta fd neovim openssh postgresql ripgrep rsync starship tealdeer television tmux zoxide zsh
+yay -S --needed bat delta eza lazygit fzf curl go go-sqlcmd git-delta fd neovim openssh postgresql ripgrep rsync starship tealdeer television tree-sitter tree-sitter-cli tmux zoxide zsh
 
 echo "[ 3/5 ] Installing project toolchains..."
 yay -S --needed dotnet-sdk aspnet-runtime jdk21-openjdk cmake sqlc goose golangci-lint sqruff-bin
