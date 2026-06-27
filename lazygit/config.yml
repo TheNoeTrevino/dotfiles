@@ -1,3 +1,5 @@
+gui:
+  skipRewordInEditorWarning: true
 keybinding:
   universal:
     prevItem-alt: l
@@ -11,8 +13,13 @@ keybinding:
   commits:
     moveDownCommit: <c-k>
     moveUpCommit: <c-l>
+    renameCommit: R
+    renameCommitWithEditor: r
   files:
     collapseAll: "_"
+    commitChanges: C
+    commitChangesWithEditor: c
+
 git:
   pagers:
     - colorArg: always
