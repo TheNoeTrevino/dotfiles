@@ -131,9 +131,9 @@ ctrl-n = "select_next_entry"
 ctrl-j = "select_next_entry"
 up = "select_prev_entry"
 ctrl-p = "select_prev_entry"
-# Preserve your old fzf `--bind ctrl-k:down,ctrl-l:up` muscle memory:
-ctrl-k = "select_next_entry"
-ctrl-l = "select_prev_entry"
+# Scroll the preview panel:
+ctrl-k = "scroll_preview_down"
+ctrl-l = "scroll_preview_up"
 
 # History navigation
 # -----------------
@@ -165,7 +165,7 @@ ctrl-x = "toggle_action_picker"
 ctrl-o = "toggle_preview"
 ctrl-h = "toggle_help"
 f12 = "toggle_status_bar"
-alt-l = "toggle_layout" # moved off ctrl-l, which is now "scroll up"
+alt-l = "toggle_layout"          # moved off ctrl-l, which is now "scroll up"
 
 # Input field actions
 # ----------------------------------------
