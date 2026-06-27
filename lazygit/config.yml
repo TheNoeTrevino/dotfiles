@@ -6,12 +6,16 @@ keybinding:
     nextBlock-alt: ;
     scrollUpMain-alt1: L
     scrollDownMain-alt1: k
+    nextScreenMode: +
+    prevScreenMode: "-"
   commits:
     moveDownCommit: <c-k>
     moveUpCommit: <c-l>
+  files:
+    collapseAll: "_"
 git:
   pagers:
     - colorArg: always
-      pager: delta --dark --paging=never --config ~/.config/delta/.gitconfig --hunk-header-decoration-style ""
+      pager: delta --dark --paging=never --line-numbers
 quitOnTopLevelReturn: true
 showCommandLog: false
