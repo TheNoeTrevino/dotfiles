@@ -1,93 +1,86 @@
-# Paso Configuration
-# Copy this file to ~/.config/paso/config.yaml
-# All fields are optional — unset values use the defaults shown below.
-
-# Theme preset: default, monochrome, wave, dragon, lotus
-theme:
-  preset: default
-
-# Key mappings — organized by context.
-# Only override the keys you want to change; the rest keep their defaults.
 key_mappings:
-
-  # Navigation keys for moving around the UI
-  navigation:
-    move_left: "j"
-    move_right: ";"
-    move_up: "l"
-    move_down: "k"
-    scroll_viewport_left: "["
-    scroll_viewport_right: "]"
-    next_project: "}"
-    prev_project: "{"
-
-  # Task actions in normal mode (single-key shortcuts)
-  tasks:
-    add_task: "a"
-    edit_task: "e"
-    delete_task: "d"
-    view_task: "o"              # space
-    edit_labels: "ctrl+l"
-    edit_priority: "ctrl+r"
-    edit_assignee: "ctrl+a"
-    edit_estimate: "ctrl+e"
-    edit_due_date: "ctrl+d"
-    edit_parent_task: "p"
-    edit_child_task: "c"
-    edit_type: "ctrl+t"
-    move_task_to_project: "s"
-
-  # Kanban board actions (uppercase = Shift held)
-  kanban:
-    create_column: "C"
-    rename_column: "R"
-    delete_column: "X"
-    move_task_left: "J"
-    move_task_right: ":"
-    move_task_up: "L"
-    move_task_down: "K"
-
-  # Project management
-  projects:
-    create_project: "P"
-    edit_project: "E"
-    delete_project: "D"
-
-  # Form shortcuts (ctrl+ modifiers so they don't conflict with text input)
-  forms:
-    save_form: "ctrl+s"
-    open_comments_view: "ctrl+n"
-    refresh_git_data: "f5"
-    edit_labels: "ctrl+l"
-    edit_parent_task: "ctrl+p"
-    edit_child_task: "ctrl+c"
-    edit_priority: "ctrl+r"
-    edit_type: "ctrl+t"
-    edit_assignee: "ctrl+a"
-    edit_estimate: "ctrl+e"
-    edit_due_date: "ctrl+d"
-    show_help: "ctrl+/"
-
-  # Picker overlay shortcuts
-  pickers:
-    delete_label: "ctrl+d"
-
-  # Global shortcuts
-  general:
-    show_help: "?"
-    connect_remote: "ctrl+h"
-    filter_bar: "ctrl+f"
-    quit: "q"
-    suspend: "ctrl+z"
-    toggle_view: "v"
-    search: "/"
-
-# Database connections (managed via `paso db` commands)
-# databases:
-#   - name: local
-#     connection_string: "~/.local/share/paso/tasks.db"
-#     type: sqlite
-#   - name: remote
-#     connection_string: "postgres://user:pass@host/db"
-#     type: postgres
-# active_database: local
+    navigation:
+        move_left: j
+        move_right: ;
+        move_up: l
+        move_down: k
+        scroll_viewport_left: '['
+        scroll_viewport_right: ']'
+        next_project: '}'
+        prev_project: '{'
+    tasks:
+        add_task: a
+        edit_task: e
+        delete_task: d
+        view_task: o
+        edit_labels: ctrl+l
+        edit_priority: ctrl+r
+        edit_assignee: ctrl+a
+        edit_estimate: ctrl+e
+        edit_due_date: ctrl+d
+        edit_parent_task: p
+        archive_task: c
+        edit_type: ctrl+t
+        move_task_to_project: s
+    kanban:
+        create_column: C
+        rename_column: R
+        delete_column: X
+        move_task_left: J
+        move_task_right: ':'
+        move_task_up: L
+        move_task_down: K
+    projects:
+        create_project: P
+        edit_project: E
+        delete_project: D
+    forms:
+        save_form: ctrl+s
+        open_comments_view: ctrl+n
+        refresh_git_data: f5
+        edit_labels: ctrl+l
+        edit_parent_task: ctrl+p
+        edit_child_task: ctrl+c
+        edit_priority: ctrl+r
+        edit_type: ctrl+t
+        edit_assignee: ctrl+a
+        edit_estimate: ctrl+e
+        edit_due_date: ctrl+d
+        show_help: ctrl+/
+    pickers:
+        delete_label: ctrl+d
+    general:
+        show_help: '?'
+        connect_remote: ctrl+h
+        filter_bar: ctrl+f
+        quit: q
+        suspend: ctrl+z
+        toggle_view: v
+        search: /
+theme:
+    preset: default
+    accent: '#874BFD'
+    background: '#1C1C1C'
+    create: '#5FD75F'
+    edit: '#5F87D7'
+    delete: '#FF0000'
+    blocked: '#EF4444'
+    column_border: '#5F87D7'
+    column_background: '#262626'
+    task_border: '#585858'
+    task_background: '#262626'
+    selected_border: '#D75FD7'
+    selected_bg: '#3A3A3A'
+    title: '#D75FD7'
+    subtle: '#585858'
+    normal: '#D0D0D0'
+    info_fg: '#00AFFF'
+    info_bg: '#00005F'
+    warning_fg: '#FFD700'
+    warning_bg: '#875F00'
+    error_fg: '#FF0000'
+    error_bg: '#5F0000'
+    status_bar_bg: '#874BFD'
+    status_bar_text: '#D0D0D0'
+databases: []
+active_assignee: agent-g
