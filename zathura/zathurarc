@@ -1,0 +1,6 @@
+# SyncTeX: enable so forward/inverse search with VimTeX works.
+set synctex true
+
+# Sensible defaults
+set selection-clipboard clipboard
+set adjust-open width
