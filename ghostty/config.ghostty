@@ -2,4 +2,6 @@ font-feature = -dlig
 font-feature = -liga
 
 mouse-hide-while-typing = true
-background-opacity = 0.99
+background-opacity = 0.95
+
+background = #000000
