@@ -5,7 +5,7 @@
 
 binds=$(cat <<'EOF'
 ── Apps & Launchers ──────────────────────────────
-ALT + Return            Terminal (ghostty + tmux)
+ALT + Return            Terminal (ghostty + herdr)
 ALT + E                 File manager (dolphin)
 ALT + Space             App launcher (wofi)
 ALT + V                 Clipboard history (cliphist)
