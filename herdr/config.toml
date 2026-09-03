@@ -79,7 +79,7 @@ resize_pane_right = "shift+right"
 # herdr's documented slot for indexed agents. Left commented because your server
 # log flags alt chords ("flushing lone escape after input timeout"). Uncomment
 # and test; if it does not fire, alt is the reason, not the 1..9 syntax.
-# focus_agent = "prefix+alt+1..9"
+focus_agent = "prefix+alt+1..9"
 
 # --- seamless nvim <-> pane navigation (willfish/herdr-navigator) ---
 # Install: herdr plugin install willfish/herdr-navigator
@@ -133,7 +133,7 @@ host_cursor = "native"
 # tmux: set -g status-position top
 tab_bar_position = "bottom"
 
-sidebar_collapsed_mode = "hidden"
+sidebar_collapsed_mode = "compact"
 
 prompt_new_workspace_name = true
 
