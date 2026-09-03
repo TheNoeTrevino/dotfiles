@@ -1,0 +1,10 @@
+# Work identity. Pulled in by the includeIf at the end of ~/.config/git/config,
+# which matches repos under ~/projects/icris/.
+#
+# To add another work repo, add a second includeIf line pointing back here.
+# Check which identity a repo actually resolves to with:
+#   git -C <repo> config --get user.email
+
+[user]
+	email = noe.trevino@respec.com
+	name = Noe Trevino

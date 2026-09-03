@@ -45,11 +45,12 @@
 	# side changed instead of guessing.
 	conflictStyle = zdiff3
 
-# Work identity for ~/projects/icris. Git applies this file top to bottom and
-# the last value wins, so this block MUST stay below [user]. Above it, the
-# personal address would be read afterwards and would win instead.
-#
-# The trailing slash means the directory and everything under it. Without it
-# the pattern matches one exact path and misses submodules and subdirectories.
-[includeIf "gitdir:~/projects/icris/"]
+[includeIf "hasconfig:remote.*.url:*[sS][sS][gG][lL][iI][mM][iI][tT][eE][dD]/**"]
+	path = ~/.config/git/config-work
+[includeIf "hasconfig:remote.*.url:**/[sS][sS][gG][lL][iI][mM][iI][tT][eE][dD]/**"]
+	path = ~/.config/git/config-work
+
+[includeIf "hasconfig:remote.*.url:*[rR][eE][sS][pP][eE][cC]/**"]
+	path = ~/.config/git/config-work
+[includeIf "hasconfig:remote.*.url:**/[rR][eE][sS][pP][eE][cC]/**"]
 	path = ~/.config/git/config-work
