@@ -35,3 +35,12 @@ ibus
 /user-dirs.dirs
 /user-dirs.locale
 /stripe
+/chromium/Crash Reports
+
+# herdr keeps its runtime state next to config.toml. Track only the config.
+/herdr/*.log
+/herdr/*.sock
+/herdr/session.json
+/herdr/.plugins.lock
+/herdr/plugins/
+/zen-backup-20260807/k2alelrl.Default (release)
