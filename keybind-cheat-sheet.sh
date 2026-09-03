@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Hyprland keybind cheat sheet — rendered with wofi --dmenu (read-only list).
+# Hyprland keybind cheat sheet — rendered with fuzzel --dmenu (read-only list).
 # Source of truth: ~/.config/hypr/hyprland.conf  (mainMod = SUPER)
 # Bound in waybar via custom/keybinds.
 
@@ -7,7 +7,7 @@ binds=$(cat <<'EOF'
 ── Apps & Launchers ──────────────────────────────
 SUPER + Return          Terminal (ghostty + herdr)
 SUPER + E               File manager (dolphin)
-ALT + Space             App launcher (wofi)
+ALT + Space             App launcher (fuzzel)
 SUPER + V               Clipboard history (cliphist)
 SUPER + N               Notification panel (swaync)
 SUPER + W               Restart waybar
@@ -48,9 +48,16 @@ Media Next/Play/Prev    playerctl
 EOF
 )
 
-echo "$binds" | wofi --dmenu \
-  --prompt "Keybinds" \
-  --insensitive \
-  --width 720 \
-  --height 720 \
-  --cache-file /dev/null
+# CAREFUL: fuzzel's --width is in CHARACTERS and --lines counts rows, whereas
+# wofi's --width/--height were pixels. The old 720/720 would mean a 720-column
+# window here. Longest line above is 71 chars, so 78 leaves a little slack.
+#
+# --no-sort is REQUIRED: this list is hand-ordered into sections, and fuzzel
+# sorts matches by default, which would scatter the "── Section ──" headers.
+# --cache=/dev/null likewise stops most-recently-used from reordering it.
+echo "$binds" | fuzzel --dmenu \
+  --no-sort \
+  --cache=/dev/null \
+  --prompt "Keybinds " \
+  --width 78 \
+  --lines 30

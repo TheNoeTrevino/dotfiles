@@ -6,7 +6,7 @@
 - [ghostty](ghostty/config.ghostty) - terminal emulator
 - [starship](starship.toml) - shell prompt
 - [waybar](waybar/) - status bar
-- [wofi](wofi/style.css) - app launcher
+- [fuzzel](fuzzel/fuzzel.ini) - app launcher + dmenu for every picker (replaced wofi)
 - [lazygit](lazygit/config.yml) - git TUI
 - [paso](paso/config.yaml) - task manager
 - [wallpapers](wallpapers/) - wallpaper collection

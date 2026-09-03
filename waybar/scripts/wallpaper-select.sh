@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Wofi wallpaper picker for the waybar image icon (replaces a dead rofi script;
-# rofi is not installed on this machine).
+# fuzzel wallpaper picker for the waybar image icon.
 #
 # Flow:  pick a target monitor  ->  pick a wallpaper (with thumbnails).
 # The choice is applied immediately via awww AND written back into
@@ -12,7 +11,9 @@ APPLY="$HOME/.config/hypr/wallpaper.sh"
 # shellcheck source=/dev/null
 source "$CONF"
 
-menu() { wofi --dmenu --allow-images -i "$@"; }
+# --no-sort keeps step 1's "All monitors" entry pinned first and step 2 in glob
+# (alphabetical) order; fuzzel sorts matches by default.
+menu() { fuzzel --dmenu --no-sort "$@"; }
 
 # Friendly role label for a monitor description (by serial), else its connector.
 label_for() {
@@ -49,16 +50,21 @@ out="${NAME_OF[$target]:-}"; desc="${DESC_OF[$target]:-}"
 [[ -n "$out" ]] || exit 0
 
 # --- Step 2: choose a wallpaper (thumbnails) ----------------------------------
-entries=""
-for f in "$WALLPAPER_DIR"/*; do
-  [[ -f "$f" ]] || continue
-  entries+="img:$f:text:$(basename "$f")"$'\n'
-done
-pick="$(printf '%s' "$entries" | menu -p "Wallpaper for ${target%% (*}")"
+# Thumbnails use Rofi's extended dmenu protocol, which fuzzel understands:
+#   <display text>\0icon\x1f<path>
+# This is fed straight into the pipe rather than accumulated in a variable,
+# because bash strings CANNOT contain NUL bytes — building it up in $entries
+# the way the old wofi `img:PATH:text:NAME` format did would silently drop the
+# separator and every line would render as plain text with no thumbnail.
+pick="$(
+  for f in "$WALLPAPER_DIR"/*; do
+    [[ -f "$f" ]] || continue
+    printf '%s\0icon\x1f%s\n' "$(basename "$f")" "$f"
+  done | menu -p "Wallpaper for ${target%% (*} "
+)"
 [[ -n "$pick" ]] || exit 0
-# wofi --allow-images echoes the whole `img:PATH:text:NAME` line, not just NAME.
-# Strip up to the last `:text:` to recover the basename (no-op for plain text).
-pick="${pick##*:text:}"
+# Unlike wofi, fuzzel prints only the display text, so $pick is already the
+# bare basename — no stripping needed.
 file="$WALLPAPER_DIR/$pick"
 [[ -f "$file" ]] || { notify-send "Wallpaper" "Not found: $pick" 2>/dev/null; exit 1; }
 
