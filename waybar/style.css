@@ -5,18 +5,50 @@
     font-family: "JetBrainsMono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
     font-size: 12px;
 }
-/* Waybar */
+/* Waybar — flat, opaque, flush to the bottom edge.
+ *
+ * This was a floating "islands" bar: transparent here, 5px margins in
+ * config.jsonc, and each #group-N drawn as its own rounded pill. Opaque @base
+ * with zero margins is what stops the wallpaper showing through. */
 #waybar {
-    background-color: transparent;
+    background-color: @base;
+    color: @text;
 }
 
 #waybar .module {
     color: @text;
-    padding: 0px 0px;
-    margin: -10px 6px -10px;
-    padding-left: 2px;
-    margin: -10px 7px -10px;
-    border: 2px;
+    /* The old rule was `margin: -10px 6px -10px` — negative vertical margins
+     * that pulled modules up out of the floating pills. On a flat bar they
+     * just clip the text, so modules now sit flush with a little side padding. */
+    padding: 0px 6px;
+    margin: 0px;
+}
+
+/* Flush the two OUTER edges of the bar.
+ *
+ * The 6px .module padding above is wanted between modules, but at the far left
+ * and far right it left a 6px strip of bare bar before the first workspace
+ * block and after the battery — measured with grim as exactly 6.00 logical px
+ * of @base at both ends.
+ *
+ * Both a structural selector and an id selector are given because waybar wraps
+ * each module in a `widget` element and these are nested inside group boxes,
+ * so the structural form does not always reach them. The id form is what
+ * actually bites; note it hardcodes the current first/last modules, so if
+ * modules-left stops starting with workspaces or modules-right stops ending
+ * with battery, update these two rules. `#waybar #x` (2 ids) is deliberately
+ * more specific than `#waybar .module` (1 id + 1 class), or it would not win. */
+.modules-left > widget:first-child > .module {
+    padding-left: 0px;
+}
+.modules-right > widget:last-child > .module {
+    padding-right: 0px;
+}
+#waybar #workspaces {
+    padding-left: 0px;
+}
+#waybar #battery {
+    padding-right: 0px;
 }
 
 #waybar .module:hover {
@@ -35,9 +67,10 @@
 button {
     box-shadow: inset 0 -3px transparent;
     border: none;
-    border-radius: 2px;
+    border-radius: 0px;
     padding: 0px 5px;
-    margin: 5px 0px;
+    /* was `margin: 5px 0px` — 10px of vertical margin the 22px bar cannot spare */
+    margin: 0px;
 }
 
 button:hover {
@@ -45,29 +78,32 @@ button:hover {
     box-shadow: inset 0 -3px transparent;
 }
 
+/* THE HEIGHT TRAP: this rule used to carry `margin-top: 1em; margin-bottom: 1em`.
+ * At font-size 12px that is 24px of vertical margin, which forces the bar taller
+ * than 22px no matter what "height" says in config.jsonc. Zero it, or the bar
+ * silently ignores the height you asked for. */
+/* KEEP THIS PADDING EQUAL TO #workspaces button.active BELOW. They used to be
+ * 6px and 8px, so the active button was 4px wider than an inactive one and the
+ * whole workspace row reflowed by 4px on every workspace switch. Equal padding
+ * means only the colour changes. */
 #workspaces button {
     box-shadow: none;
     text-shadow: none;
-    padding: 0px;
-    border-radius: 8px;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 0px;
-    padding-left: 3px;
-    padding-right: 3px;
-    margin-right: 0px;
+    border-radius: 0px;
+    margin: 0px;
+    padding: 0px 8px;
     color: @text;
     animation: ws_normal 20s ease-in-out 1;
 }
 
+/* Active workspace keeps its highlight — that is information, not decoration —
+ * but as a flat block rather than a rounded pill. */
 #workspaces button.active {
     background: @mauve;
     color: @crust;
-    border-radius:  4.5pt;
-    margin-left: 0px;
-    padding-left: 8px;
-    padding-right: 8px;
-    margin-right: 0px;
+    border-radius: 0px;
+    margin: 0px;
+    padding: 0px 8px;
     animation: ws_active 20s ease-in-out 1;
     transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
 }
@@ -79,12 +115,14 @@ button:hover {
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
+/* #tags is a dwl/river module and never renders under Hyprland, but zero the
+ * margin anyway so it cannot reintroduce the height problem if ever used. */
 #tags button {
     color: @mauve;
-    background: @base;
+    background: transparent;
     border-radius: 0px;
-    padding: 0px 0px;
-    margin: 5px 0px;
+    padding: 0px 4px;
+    margin: 0px;
 }
 
 #tags button.occupied {
@@ -107,23 +145,24 @@ button:hover {
     color: @text;
 }
 
+/* Groups are pure layout containers now. They used to be the visible floating
+ * pills (border-radius 6px + their own @base fill); on a flat bar that would
+ * draw a slightly different rectangle on top of an identical background and
+ * break the single-surface look. Transparent lets #waybar's fill show through. */
 #group-10,
 #group-9,
 #group-8,
 #group-7,
 #group-6,
-#group-10,
 #group-5,
 #group-4,
 #group-3,
 #group-2,
 #group-1 {
-    border-radius: 4.5pt;
-    background: @base; /* linear-gradient(145deg, #1e1e2e 0%, #181825 100%); */
-    margin: 0px 3px;
-    border-radius: 6px;
-    background: @base; /* linear-gradient(145deg, #1e1e2e 0%, #181825 100%); */
-    border: 2px;
+    background: transparent;
+    border: none;
+    border-radius: 0px;
+    margin: 0px;
 }
 #custom-discord,
 #custom-reddit,

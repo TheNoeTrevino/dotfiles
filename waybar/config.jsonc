@@ -1,13 +1,28 @@
 //--- ZepharDev Nvim
 {
   "layer": "top",
-  "position": "top",
-  "height": 25,
-  "margin-left": 5,
-  "margin-right": 5,
-  "margin-top": 5,
+  "position": "bottom",
+  // Flat bottom bar: full width, flush to the screen edge, opaque.
+  // All margins are 0 on purpose -- any margin leaves a strip of wallpaper
+  // showing around the bar, which is the thing we are trying to get rid of.
+  // The opaque fill itself is #waybar's background-color in style.css.
+  // KEEP THIS EVEN. The Dell runs at scale 1.5, so a logical height maps to
+  // physical pixels as h*1.5. Auto-sizing (omit the key) gives 21, and
+  // 21*1.5 = 31.5 -- the half physical pixel leaves the bar's top row blended
+  // 50% with the wallpaper behind it. Verified with grim: at 21 the top native
+  // row reads (28,33,42) instead of base (30,30,46); at 22 (=33 physical, exact)
+  // every row is base. The scale-1 monitors are clean either way.
+  //
+  // To make the bar genuinely shorter, lower the module font sizes in style.css
+  // -- the tallest glyph sets the content height, and height cannot go below it.
+  "height": 22,
+  "margin-left": 0,
+  "margin-right": 0,
+  "margin-top": 0,
   "margin-bottom": 0,
-  "spacing": 15,
+  // Was 15 (needed to separate the old floating pills). A flat bar reads as
+  // one surface, so the groups only need a little breathing room.
+  "spacing": 6,
   "reload_style_on_change": true,
   // Choose the order of the modules
   "modules-left": [
