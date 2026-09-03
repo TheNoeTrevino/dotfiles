@@ -28,8 +28,9 @@ copy_mode = "prefix+["            # tmux default copy-mode key
 
 # Herdr binds settings to prefix+s by default. tmux used prefix s for the
 # session chooser, so the picker takes prefix+s and settings moves.
-workspace_picker = "prefix+s"
-settings = "prefix+shift+s"
+workspace_picker = "prefix+w"
+settings = "prefix+S"
+goto = "prefix+s"
 
 toggle_sidebar = "prefix+p"
 
@@ -119,6 +120,26 @@ type = "plugin_action"
 command = "willfish.herdr-navigator.right"
 description = "navigate right"
 
+# Name an agent. There is no rename_agent ACTION -- herdr's action bindings are a
+# closed enum (rename_tab / rename_workspace / rename_pane), so the built-in modal
+# overlay cannot be pointed at an agent from config. This is the closest stand-in.
+#
+# MUST be type = "popup". type = "shell" runs detached in the background with no
+# TTY, so it can never draw a prompt, and bare `herdr agent rename` (which is
+# `<TARGET> <NAME>`) would have failed on missing args where you'd never see it.
+#
+# NOTE: prefix+shift+p is still the real overlay for the same job -- rename_pane
+# is unset here so it keeps its default, and an agent always occupies a pane.
+# This binding exists because it ALSO sets agent.name, the unique slug that
+# `herdr agent prompt <name> ...` targets, which rename_pane does not touch.
+[[keys.command]]
+key = "prefix+A"
+type = "popup"
+command = "/home/noetrevino/.config/herdr/agent-rename.sh"
+width = "70%"
+height = "50%"
+description = "rename agent"
+
 [ui]
 # tmux: set -g mouse on
 mouse_capture = true
@@ -160,13 +181,34 @@ tab_bar_right_separator = " "
 # token, not a herdr animation.
 status_indicators = "symbols"
 
-# Agent rows stay at herdr's default:
-#   [["state_icon", "workspace", "tab"], ["agent"]]
-# The agent panel has no index, natively or otherwise, so agent rows are
-# unnumbered -- matching upstream's own screenshot.
+agent_panel_sort = "spaces"
 
-# The EXPANDED spaces panel does not number rows in 0.8.2; only the collapsed
-# rail does. $num is a custom metadata token fed by sidebar-numbers.sh, and is
-# the only way to get the index back here. See that script for the details.
+# Rows mirror upstream's screenshot layout:
+#   spaces -> name, with the state glyph trailing it
+#   agents -> state glyph, location, then the state WORD on its own line
+#
+# The `agent` token is dropped from the agent rows. Every agent here is claude,
+# so it printed the same word under every entry; `state_text` (idle / working /
+# blocked / done) takes that line instead, which is what upstream shows.
+#
+# Neither panel is numbered. herdr 0.8.2 draws the 1..9 index ONLY in the
+# collapsed rail (src/ui/sidebar.rs:823, inside render_sidebar_collapsed, which
+# ui.rs:473 calls only when sidebar_collapsed); the expanded panel has no code
+# path for it and there is no index token -- `number`, `index`, `position`,
+# `num`, and `idx` are all rejected with "unknown sidebar token; custom tokens
+# must start with `$`". Expanded numbering existed once (CHANGELOG 0.1.2) and
+# was dropped silently; upstream's assets/screenshot.png still shows it, which
+# is misleading. A `$num` metadata token fed by a polling service was the only
+# workaround -- removed, because rows already render in switch_workspace order,
+# so a row's position IS its index.
 [ui.sidebar.spaces]
-rows = [["state_icon", "$num", "workspace"], ["branch", "git_status"]]
+rows = [["workspace", "state_icon"], ["branch", "git_status"]]
+
+# The `pane` token renders pane.label -- what prefix+shift+p (rename_pane) and
+# agent-rename.sh set. There is deliberately no token for agent.name: herdr
+# rejects `name` with "unknown sidebar token", so the slug handle is CLI-only.
+[ui.sidebar.agents]
+rows = [["state_icon", "workspace", "tab"], ["state_text", "pane"]]
+
+[ui.toast]
+delivery = "herdr"
