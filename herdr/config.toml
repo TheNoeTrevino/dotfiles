@@ -1,0 +1,159 @@
+# herdr configuration
+# Migrated from ~/.config/tmux/tmux.conf.
+# Print every available option with: herdr --default-config
+# Validate this file with: herdr config check
+
+# The tmux config used Kanagawa hex colors inline (#7E9CD8, #FFA065, #363646,
+# #688E81). Herdr ships Kanagawa as a built-in theme, so one line replaces the
+# whole block of tmux *-style options.
+[theme]
+name = "kanagawa"
+
+auto_switch = false
+[terminal]
+# New panes and tabs inherit the cwd of the pane they came from.
+new_cwd = "follow"
+
+[keys]
+# tmux used Ctrl-Space, not Ctrl-b.
+prefix = "ctrl+space"
+
+# --- carried over from tmux ---
+reload_config = "prefix+r"        # tmux: bind r source-file
+split_vertical = "prefix+|"       # tmux: bind | split-window -h
+split_horizontal = "prefix+minus" # tmux: bind - split-window -v
+close_pane = "prefix+x"           # tmux: bind x kill-pane
+zoom = "prefix+z"                 # replaces the tmux-zoom.sh run-shell hack
+copy_mode = "prefix+["            # tmux default copy-mode key
+
+# Herdr binds settings to prefix+s by default. tmux used prefix s for the
+# session chooser, so the picker takes prefix+s and settings moves.
+workspace_picker = "prefix+s"
+settings = "prefix+shift+s"
+
+toggle_sidebar = "prefix+p"
+
+# resize_mode moves off prefix+r because reload_config took it.
+resize_mode = "prefix+shift+r"
+
+# --- pane focus: plain hjkl, not the old shifted jkl; scheme ---
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# --- tabs are tmux windows ---
+new_tab = "prefix+c"
+previous_tab = "alt+comma" # tmux: bind -n M-,
+next_tab = "alt+period"    # tmux: bind -n M-.
+# Ghostty reports Alt+Shift+,/. as the SHIFTED glyph (< / >) with the Shift
+# modifier still set. The old tmux config hit this too and had to bind both
+# M-< and M-S-<. A herdr binding may be an array, so cover all three spellings.
+move_tab_previous = [
+  "alt+shift+comma",
+  "alt+<",
+  "alt+shift+<",
+] # tmux: M-< swap-window
+move_tab_next = [
+  "alt+shift+period",
+  "alt+>",
+  "alt+shift+>",
+] # tmux: M-> swap-window
+
+# Indexed jumps. Use these explicit fields, NOT [keys.indexed] -- the herdr docs
+# call that table legacy, kept only for compatibility.
+# After the prefix, a plain digit and a shifted digit both arrive as ordinary
+# characters, so neither depends on the terminal's keyboard protocol.
+switch_tab = "prefix+1..9"
+switch_workspace = "prefix+shift+1..9"
+close_tab = "prefix+shift+x"
+
+# --- Shift+arrow resize, no mode, same as tmux ---
+resize_pane_left = "shift+left"
+resize_pane_down = "shift+down"
+resize_pane_up = "shift+up"
+resize_pane_right = "shift+right"
+
+# previous_agent = "prefix+shift+up"
+# next_agent = "prefix+shift+down"
+# herdr's documented slot for indexed agents. Left commented because your server
+# log flags alt chords ("flushing lone escape after input timeout"). Uncomment
+# and test; if it does not fire, alt is the reason, not the 1..9 syntax.
+# focus_agent = "prefix+alt+1..9"
+
+# --- seamless nvim <-> pane navigation (willfish/herdr-navigator) ---
+# Install: herdr plugin install willfish/herdr-navigator
+# The plugin reads the active pane's foreground process. On nvim it runs
+# `herdr pane send-keys` so nvim moves its own split; on anything else it runs
+# `herdr pane focus`. The nvim half is willfish/herdr-navigator.nvim, wired up
+# in ~/.config/nvim/lua/plugins/tools/herdr-navigator.lua.
+#
+# These use ctrl, NOT the plugin's documented alt. Alt chords misfire here (see
+# the focus_agent note above). Upstream hardcodes the forwarded key in its
+# herdr-plugin.toml, so that manifest is edited locally to send ctrl+hjkl:
+#   ~/.config/herdr/plugins/github/willfish.herdr-navigator-*/herdr-plugin.toml
+# Re-apply that edit after `herdr plugin install` overwrites it.
+#
+# NOTE: these are prefix-free. focus_pane_* on prefix+hjkl still works.
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "willfish.herdr-navigator.left"
+description = "navigate left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "willfish.herdr-navigator.down"
+description = "navigate down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "willfish.herdr-navigator.up"
+description = "navigate up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "willfish.herdr-navigator.right"
+description = "navigate right"
+
+[ui]
+# tmux: set -g mouse on
+mouse_capture = true
+copy_on_select = true
+
+# host_cursor defaults to "auto", which draws herdr's own cell cursor on WSL and
+# native Windows. A drawn cursor is always a block, so nvim's insert-mode bar
+# (DECSCUSR) never showed. "native" hands the shape back to the outer terminal.
+# Trade-off: occasional cursor artifacts during heavy output. Use "drawn" to revert.
+host_cursor = "native"
+
+# tmux: set -g status-position top
+tab_bar_position = "bottom"
+
+sidebar_collapsed_mode = "hidden"
+
+prompt_new_workspace_name = true
+
+# Rebuilds the old tmux status-right: git branch, date, clock.
+# Command entries run through `/bin/sh -lc` on the herdr server, in the active
+# pane's working directory, and herdr shows the LAST line of successful output.
+# Outside a repo `git rev-parse` fails, the `&&` short-circuits, and herdr
+# clears the entry. That replaces the tmux `2>/dev/null` fallback.
+tab_bar_right = [
+  { type = "command", command = 'b=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) && printf "  %s" "$b"', interval_seconds = 5, timeout_seconds = 2 },
+  { type = "datetime", format = "%d/%m" },
+  { type = "datetime", format = "%H:%M:%S" },
+]
+tab_bar_right_separator = " "
+
+# herdr has no built-in sidebar token for the 1..9 index, so these use custom
+# `$` tokens. sidebar-numbers.sh keeps them current; without that service
+# running they render empty (the tokens carry a TTL so they never go stale).
+[ui.sidebar.spaces]
+rows = [["state_icon", "$num", "workspace"], ["branch", "git_status"]]
+
+[ui.sidebar.agents]
+rows = [["state_icon", "$n", "workspace", "tab"], ["agent"]]
