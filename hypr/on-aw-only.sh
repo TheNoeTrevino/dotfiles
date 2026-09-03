@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run by kanshi when the `aw-only` profile activates (just the AW, laptop off).
 # Monitor layout is already applied by kanshi; here we only handle
-# workspace->monitor assignment and keyboard options.
+# workspace->monitor assignment (keyboard options are per-device in hyprland.conf).
 
 find_monitor() {
   hyprctl monitors all | awk -v desc="$1" '
@@ -12,8 +12,9 @@ find_monitor() {
 
 aw=$(find_monitor "CQF2D34")   # Dell AW2725QF
 
-# External keyboard (lid closed), so drop the caps:swapescape remap.
-hyprctl keyword input:kb_options ""
+# NOTE: keyboard options are NOT set here any more. caps:swapescape is pinned
+# per-device to the built-in keyboard in hyprland.conf, so it no longer depends
+# on which monitor profile is active. See the `device` block there.
 
 # Single monitor: all workspaces live on the AW.
 if [[ -n "$aw" ]]; then

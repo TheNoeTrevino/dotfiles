@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run by kanshi when the `docked` profile activates.
 # Monitor layout is already applied by kanshi; here we only handle
-# workspace->monitor assignment and keyboard options.
+# workspace->monitor assignment (keyboard options are per-device in hyprland.conf).
 
 # Resolve a connector name (DP-x) from a stable EDID serial substring,
 # since DP-x numbers are not stable across replugs.
@@ -16,8 +16,9 @@ left=$(find_monitor "T3LMQS142415")   # ASUS VP229
 mid=$(find_monitor "CQF2D34")         # Dell AW2725QF
 right=$(find_monitor "V5XT8124")      # Lenovo S27q-10
 
-# Docked: laptop keyboard, so drop the caps:swapescape remap.
-hyprctl keyword input:kb_options ""
+# NOTE: keyboard options are NOT set here any more. caps:swapescape is pinned
+# per-device to the built-in keyboard in hyprland.conf, so it no longer depends
+# on which monitor profile is active. See the `device` block there.
 
 # Left monitor: workspace 1
 if [[ -n "$left" ]]; then

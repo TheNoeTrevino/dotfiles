@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Run by kanshi when the `laptop` profile activates (undocked).
 # Monitor layout is already applied by kanshi; here we handle
-# workspace->monitor assignment and keyboard options.
+# workspace->monitor assignment (keyboard options are per-device in hyprland.conf).
 
 LAPTOP="eDP-1"
 
-# Undocked: built-in keyboard, restore caps:swapescape.
-hyprctl keyword input:kb_options "caps:swapescape"
+# NOTE: keyboard options are NOT set here any more. caps:swapescape is pinned
+# per-device to the built-in keyboard in hyprland.conf, so it no longer depends
+# on which monitor profile is active. See the `device` block there.
 
 # All workspaces live on the laptop screen.
 for ws in 1 2 3 4 5 6 7 8 9; do
