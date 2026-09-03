@@ -1,0 +1,8 @@
+# haunt CLI settings.
+#
+# These must match your haunt.nvim Neovim config. The CLI cannot read a
+# Neovim config, so if you change either setting there, change it here too
+# or re-run `haunt doctor --fix`.
+
+data_dir = "/home/noe.trevino/.haunt"
+per_branch_bookmarks = true
