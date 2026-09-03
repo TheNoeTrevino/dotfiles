@@ -5,7 +5,6 @@ btop
 configstore
 dconf
 gh
-git
 github-copilot
 mozilla
 pulse 
@@ -42,6 +41,13 @@ ibus
 /OpenSCAD
 /chromium/Crash Reports
 /zen-backup-20260807/k2alelrl.Default (release)
+
+# ~/.config/git holds the global git config, now that ~/.gitconfig is gone.
+# config and ignore are portable, so they are tracked. config-work carries a
+# work email and this repo is public, so it stays out. Git ignores a missing
+# includeIf path without complaining, so the include in config is harmless on a
+# machine that has no config-work.
+/git/config-work
 
 # herdr keeps its runtime state next to config.toml. Track only the config.
 /herdr/*.log

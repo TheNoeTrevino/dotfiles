@@ -1,0 +1,55 @@
+# Global git config, XDG location.
+#
+# Git reads BOTH this file and ~/.gitconfig when both exist, and ~/.gitconfig
+# wins every single-valued setting. `git config --global` also targets
+# ~/.gitconfig whenever it exists, for reads and for writes. So ~/.gitconfig
+# must stay absent, or it silently shadows this file and every `--global`
+# write lands over there instead. `ignore` in this directory is the companion
+# excludes file.
+
+[user]
+	email = noetrevino.music@gmail.com
+	name = Noe Trevino
+[init]
+	defaultBranch = main
+[push]
+	default = current
+	autoSetupRemote = true
+
+# delta renders every diff: `git diff`, `git show`, `git log -p`, and the
+# fzf-git.sh previews. fzf-git.sh reads core.pager directly, so this one line
+# is what makes those previews stop showing raw diff text.
+[core]
+	pager = delta
+
+# `git add -p` and the other interactive commands pipe their diff through this
+# instead of core.pager. --color-only keeps delta's colors but drops the
+# decorations, because git has to parse the output back.
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	# n and N jump between files in the diff.
+	navigate = true
+	line-numbers = true
+	# Off on purpose. An fzf preview pane is half the terminal, which is too
+	# narrow for two columns.
+	side-by-side = false
+
+[diff]
+	# Show moved lines in their own color rather than as a delete plus an add.
+	colorMoved = default
+
+[merge]
+	# zdiff3 adds the common ancestor to a conflict, so you can see what each
+	# side changed instead of guessing.
+	conflictStyle = zdiff3
+
+# Work identity for ~/projects/icris. Git applies this file top to bottom and
+# the last value wins, so this block MUST stay below [user]. Above it, the
+# personal address would be read afterwards and would win instead.
+#
+# The trailing slash means the directory and everything under it. Without it
+# the pattern matches one exact path and misses submodules and subdirectories.
+[includeIf "gitdir:~/projects/icris/"]
+	path = ~/.config/git/config-work
