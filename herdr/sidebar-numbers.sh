@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
 #
-# Feed the 1..9 index numbers into herdr's sidebar as metadata tokens.
+# Feed the 1..9 workspace index into herdr's expanded sidebar as a metadata token.
 #
-# herdr has no built-in sidebar token for the index. `number`, `index`,
-# `position`, `num`, and `idx` are all rejected with "unknown sidebar token;
-# custom tokens must start with `$`". Custom `$` tokens DO work, and
-# `report-metadata` is how you set them, so this loop keeps them current.
+# herdr renders index numbers natively ONLY in the COLLAPSED sidebar rail
+# (src/ui/sidebar.rs render_sidebar_collapsed). The EXPANDED spaces panel draws
+# no number -- its row prefix is whitespace plus worktree tree glyphs, and the
+# only built-in tokens are state_icon, state_text, workspace, branch, git_status.
+# Expanded numbering existed once (CHANGELOG 0.1.2, "Sidebar now shows workspace
+# numbers again in expanded view") but was dropped without a changelog entry;
+# assets/screenshot.png upstream still shows it, which is misleading.
+#
+# There is no index token: `number`, `index`, `position`, `num`, and `idx` are
+# all rejected with "unknown sidebar token; custom tokens must start with `$`".
+# Custom `$` tokens DO work and `report-metadata` sets them, so this loop is the
+# only way to number the expanded panel on 0.8.2.
 #
 # Consumed by:
-#   [ui.sidebar.spaces]  ->  $num   (matches switch_workspace = prefix+shift+1..9)
-#   [ui.sidebar.agents]  ->  $n     (matches focus_agent    = prefix+alt+1..9)
+#   [ui.sidebar.spaces]  ->  $num   (matches switch_workspace = prefix+1..9)
+#
+# Agents are deliberately not numbered here: the agent panel has no native index
+# either, and deriving one from `agent list` order breaks under
+# ui.agent_panel_sort = "priority", which reorders rows on state change.
 #
 # Runs as herdr-sidebar-numbers.service. See ~/.config/services/.
 
@@ -34,22 +45,9 @@ sync_workspaces() {
     done
 }
 
-sync_agents() {
-  # Agents carry no index of their own. The agent panel renders `agent list`
-  # order while ui.agent_panel_sort = "spaces", so array position is the index.
-  # This breaks under agent_panel_sort = "priority", which reorders on state.
-  "$HERDR" agent list 2>/dev/null |
-    jq -r '.result.agents | to_entries[] | "\(.value.pane_id)\t\(.key + 1)"' |
-    while IFS=$'\t' read -r pane num; do
-      "$HERDR" pane report-metadata "$pane" --source "$SOURCE" \
-        --token "n=$num" --ttl-ms "$TTL_MS" >/dev/null 2>&1
-    done
-}
-
 while :; do
   if "$HERDR" status server 2>/dev/null | grep -q 'status: running'; then
     sync_workspaces
-    sync_agents
   fi
   sleep "$INTERVAL"
 done

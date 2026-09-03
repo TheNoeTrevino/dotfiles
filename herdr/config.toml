@@ -64,8 +64,8 @@ move_tab_next = [
 # call that table legacy, kept only for compatibility.
 # After the prefix, a plain digit and a shifted digit both arrive as ordinary
 # characters, so neither depends on the terminal's keyboard protocol.
-switch_tab = "prefix+1..9"
-switch_workspace = "prefix+shift+1..9"
+switch_tab = "prefix+shift+1..9"
+switch_workspace = "prefix+1..9"
 close_tab = "prefix+shift+x"
 
 # --- Shift+arrow resize, no mode, same as tmux ---
@@ -149,11 +149,24 @@ tab_bar_right = [
 ]
 tab_bar_right_separator = " "
 
-# herdr has no built-in sidebar token for the 1..9 index, so these use custom
-# `$` tokens. sidebar-numbers.sh keeps them current; without that service
-# running they render empty (the tokens carry a TTL so they never go stale).
+# Agent state glyphs: "dots" colors one shape (● working, ● blocked, ○ idle),
+# so shape carries nothing and the state is entirely in the color. "symbols"
+# gives each state its own glyph, which reads without relying on color:
+#   ×  blocked    ◐  working    ✓  done (finished while unwatched)
+#   ○  idle (seen)              ·  unknown
+# NOTE: ◐ is static, not an animated spinner -- state_icon_symbol() takes no
+# frame/tick, so nothing in the sidebar animates. The spinner in upstream's demo
+# is the agent's OWN spinner inside the pane, surfaced via the terminal_title
+# token, not a herdr animation.
+status_indicators = "symbols"
+
+# Agent rows stay at herdr's default:
+#   [["state_icon", "workspace", "tab"], ["agent"]]
+# The agent panel has no index, natively or otherwise, so agent rows are
+# unnumbered -- matching upstream's own screenshot.
+
+# The EXPANDED spaces panel does not number rows in 0.8.2; only the collapsed
+# rail does. $num is a custom metadata token fed by sidebar-numbers.sh, and is
+# the only way to get the index back here. See that script for the details.
 [ui.sidebar.spaces]
 rows = [["state_icon", "$num", "workspace"], ["branch", "git_status"]]
-
-[ui.sidebar.agents]
-rows = [["state_icon", "$n", "workspace", "tab"], ["agent"]]
