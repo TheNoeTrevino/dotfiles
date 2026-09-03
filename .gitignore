@@ -35,7 +35,13 @@ ibus
 /user-dirs.dirs
 /user-dirs.locale
 /stripe
+/Claude
+/FreeCAD
+/BambuStudio
+/libreoffice/4/user
+/OpenSCAD
 /chromium/Crash Reports
+/zen-backup-20260807/k2alelrl.Default (release)
 
 # herdr keeps its runtime state next to config.toml. Track only the config.
 /herdr/*.log
@@ -48,4 +54,3 @@ ibus
 # an install timestamp. It also caches the manifest, so it goes stale whenever
 # the manifest is edited. herdr reads the manifest itself, not this file.
 /herdr/plugins.json
-/zen-backup-20260807/k2alelrl.Default (release)

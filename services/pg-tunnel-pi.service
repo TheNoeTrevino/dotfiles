@@ -1,0 +1,19 @@
+[Unit]
+Description=PostgreSQL SSH tunnel to pi (localhost:25432 -> pi:5432)
+Documentation=man:ssh(1)
+# Keep retrying forever: at boot tailscale/network may not be up yet, and a
+# dropped link should always reconnect. RestartSec spaces attempts out; disabling
+# the start-rate limit means systemd never gives up.
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# -N (no remote command); the LocalForward + ServerAliveInterval/ExitOnForwardFailure
+# live on the `pi` host block in ~/.ssh/config, so this stays the single source of
+# truth and a manual `ssh pi` forwards identically.
+ExecStart=/usr/bin/ssh -N pi
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

@@ -14,6 +14,7 @@
 - [hyprlock](hypr/hyprlock.conf) - lock screen
 - [wlogout](wlogout/) - logout menu
 - [btop](btop/btop.conf) - system monitor
+- [zathura](zathura/zathurarc) - PDF viewer (VimTeX preview); needs `zathura-pdf-mupdf` backend + `texlive-basic texlive-latexextra texlive-binextra`
 - hyprcap 
 - hyprpicker - color picker
 - hyprshot - screenshot tool

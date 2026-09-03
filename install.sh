@@ -12,10 +12,16 @@ yay -S --needed rustup
 rustup default stable
 cargo install sqlx-cli --no-default-features --features rustls,postgres
 
+echo "       Installing LaTeX (VimTeX) toolchain..."
+# texlive-binextra provides latexmk; zathura-pdf-mupdf is the PDF backend
+# (zathura ships with no format plugins on Arch).
+yay -S --needed texlive-basic texlive-latexextra texlive-binextra zathura zathura-pdf-mupdf
+
 echo "[ 4/7 ] Installing herdr (terminal multiplexer, replaced tmux)..."
 curl -fsSL https://herdr.dev/install.sh | sh
 
 echo "[ 5/7 ] Installing Claude Code..."
+
 curl -fsSL https://claude.ai/install.sh | bash
 
 echo "[ 6/7 ] Linking systemd user services..."
