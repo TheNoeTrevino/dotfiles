@@ -1,0 +1,13 @@
+[Unit]
+Description=Feed workspace and agent index numbers into herdr sidebar tokens
+Documentation=file:///home/noe.trevino/.config/herdr/sidebar-numbers.sh
+
+[Service]
+Type=simple
+ExecStart=%h/.config/herdr/sidebar-numbers.sh
+Restart=always
+RestartSec=5
+StartLimitIntervalSec=0
+
+[Install]
+WantedBy=default.target
