@@ -54,3 +54,4 @@ ibus
 # an install timestamp. It also caches the manifest, so it goes stale whenever
 # the manifest is edited. herdr reads the manifest itself, not this file.
 /herdr/plugins.json
+/libreoffice/4/cache/sifr_dark/200
