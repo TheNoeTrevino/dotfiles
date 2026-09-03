@@ -2,27 +2,17 @@ gui:
   skipRewordInEditorWarning: true
 keybinding:
   universal:
-    prevItem-alt: l
-    nextItem-alt: k
-    prevBlock-alt: j
-    nextBlock-alt: ;
-    scrollUpMain-alt1: L
-    scrollDownMain-alt1: k
-    nextScreenMode: +
     prevScreenMode: "-"
   commits:
-    moveDownCommit: <c-k>
-    moveUpCommit: <c-l>
     renameCommit: R
     renameCommitWithEditor: r
   files:
     collapseAll: "_"
     commitChanges: C
     commitChangesWithEditor: c
-
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --dark --paging=never --line-numbers
+      command: delta --dark --paging=never --line-numbers
 quitOnTopLevelReturn: true
 showCommandLog: false
