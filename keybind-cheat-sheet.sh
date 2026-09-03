@@ -20,6 +20,7 @@ SUPER + Shift + Space   Toggle floating
 ── Focus & Move ──────────────────────────────────
 SUPER + H/J/K/L         Focus left / down / up / right
 SUPER + Shift + H/J/K/L Move window left / down / up / right
+SUPER + Shift + Arrows  Move window left / down / up / right
 
 ── Workspaces ────────────────────────────────────
 SUPER + [1-0]           Switch to workspace 1-10
