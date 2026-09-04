@@ -68,6 +68,8 @@ move_tab_next = [
 # characters, so neither depends on the terminal's keyboard protocol.
 switch_tab = "prefix+shift+1..9"
 switch_workspace = "prefix+1..9"
+next_workspace = "alt+down"
+previous_workspace = "alt+up"
 close_tab = "prefix+shift+x"
 
 # --- Shift+arrow resize, no mode, same as tmux ---
@@ -76,12 +78,12 @@ resize_pane_down = "shift+down"
 resize_pane_up = "shift+up"
 resize_pane_right = "shift+right"
 
-# previous_agent = "prefix+shift+up"
-# next_agent = "prefix+shift+down"
 # herdr's documented slot for indexed agents. Left commented because your server
 # log flags alt chords ("flushing lone escape after input timeout"). Uncomment
 # and test; if it does not fire, alt is the reason, not the 1..9 syntax.
 focus_agent = "prefix+alt+1..9"
+previous_agent = "alt+left"
+next_agent = "alt+right"
 
 # --- seamless nvim <-> pane navigation (willfish/herdr-navigator) ---
 # Install: herdr plugin install willfish/herdr-navigator
