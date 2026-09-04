@@ -3,6 +3,7 @@
 format = """
 $os\
 $username\
+$hostname\
 $directory\
 $git_branch\
 $git_status\
@@ -72,6 +73,16 @@ show_always = false
 style_user = "fg:text"
 style_root = "fg:text"
 format = '[ $user ]($style)'
+
+# Pairs with username above: both stay hidden on the laptop and appear together
+# over ssh, so a remote prompt reads "noetrevino on 🌐 pi". peach because every
+# local part of the prompt is text or pink, and a remote shell should not look
+# like a local one. ssh_only is the default and is spelled out here to say that
+# the hiding is deliberate.
+[hostname]
+ssh_only = true
+style = "fg:peach"
+format = '[on $ssh_symbol$hostname]($style)'
 
 [directory]
 style = "fg:pink"
