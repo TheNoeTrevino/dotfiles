@@ -31,6 +31,9 @@ hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/lid-closed.sh"),
 -- On open: force the internal panel back on. Opening the lid is NOT a DRM
 -- hotplug (eDP-1 never disconnects), so kanshi never re-fires; if eDP-1 was
 -- left DPMS-off (e.g. externals unplugged while closed), nothing else wakes it.
-hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprctl dispatch dpms on eDP-1"), { locked = true })
+-- Called as a dispatcher directly rather than shelling out to
+-- `hyprctl dispatch dpms on eDP-1`: under the Lua provider hyprctl parses its
+-- argument as a Lua expression, so the old bare-word form is a syntax error.
+hl.bind("switch:off:Lid Switch", hl.dsp.dpms("on", "eDP-1"), { locked = true })
 
 return true

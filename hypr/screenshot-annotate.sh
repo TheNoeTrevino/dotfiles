@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Region screenshot -> satty annotation editor -> clipboard + ~/Screenshots.
-# Bound to PrtSc and SUPER+SHIFT+S in hyprland.conf.
+# Bound to PrtSc and SUPER+SHIFT+S in lua/binds.lua.
 #
 # Enter  in satty: copy annotated PNG to clipboard, save a timestamped file, quit.
 # Escape in satty: discard, write nothing.
@@ -34,31 +34,21 @@ exec 9>&-
 
 mkdir -p ~/Screenshots
 
+# satty is floated by the `float-satty` window rule in lua/rules.lua, so that
+# dwindle does not squash the canvas. Under the old hyprlang config that was
+# impossible (no matched window rules on 0.56) and this script had to poll
+# `hyprctl clients` and dispatch setfloating by hand; the Lua config expresses
+# it declaratively, so satty can simply run in the foreground here.
+#
 # Piped over stdin rather than through a temp file so only the *annotated*
 # image ever reaches the clipboard. --copy-command is load-bearing: satty's own
 # GTK clipboard offer dies with the process, so on Wayland the paste comes up
 # empty unless wl-copy takes ownership and keeps serving it.
+#
+# `|| true` because Escape / discard exits non-zero; that is not an error.
 grim -g "$geom" - | satty --filename - \
 	--output-filename "$HOME/Screenshots/%Y-%m-%d_%H-%M-%S.png" \
 	--copy-command wl-copy \
 	--actions-on-enter save-to-clipboard,save-to-file,exit \
 	--actions-on-escape exit \
-	--initial-tool arrow &
-editor=$!
-
-# Float the editor so dwindle doesn't squash the canvas. This lives here rather
-# than in a windowrule because hyprlang has no matched window rules as of
-# Hyprland 0.56 (deprecated in favour of the Lua config since 0.55) --
-# `windowrule = float true, class ...` fails with "invalid field type class".
-for _ in $(seq 20); do
-	sleep 0.1
-	hyprctl -j clients | grep -q 'com\.gabm\.satty' || continue
-	hyprctl dispatch setfloating class:com.gabm.satty >/dev/null
-	# centerwindow has no window selector, so only fire it if satty really is
-	# focused -- otherwise it would recentre whatever else held focus.
-	hyprctl activewindow | grep -q 'class: com\.gabm\.satty' &&
-		hyprctl dispatch centerwindow >/dev/null
-	break
-done
-
-wait "$editor" || true # Escape / discard exits non-zero; not an error
+	--initial-tool arrow || true
