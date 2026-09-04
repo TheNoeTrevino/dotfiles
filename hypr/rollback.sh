@@ -5,8 +5,7 @@ set -euo pipefail
 cd ~/.config/hypr
 if [ -e hyprland.lua ]; then
 	mv hyprland.lua hyprland-lua-wip.lua
-	echo "rolled back to hyprland.conf"
+	echo "rollback staged — log out and back in to return to hyprland.conf"
 else
-	echo "hyprland.lua not present; already on hyprland.conf"
+	echo "hyprland.lua not present; hyprland.conf is already staged — log out and back in if you haven't yet"
 fi
-hyprctl reload

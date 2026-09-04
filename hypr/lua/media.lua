@@ -1,20 +1,22 @@
 -- ~/.config/hypr/lua/media.lua
 -- 1:1 translation of the `bindel`/`bindl` binds from hyprland.conf lines
 -- 420-444: laptop multimedia keys, keyboard backlight, playerctl, and the
--- lid switch. repeating = true matches the "e" (repeat) flag on bindel;
--- locked = true matches the "l" (works while locked/off) flag on bindl.
+-- lid switch. bindel = bind + "e" (repeat) + "l" (locked, works while
+-- locked/off), so those binds need both repeating = true and locked = true.
+-- bindl only carries the "l" (locked) flag, so those binds need only
+-- locked = true.
 
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("swayosd-client --output-volume raise"), { repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("swayosd-client --output-volume lower"), { repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("swayosd-client --output-volume mute-toggle"), { repeating = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("swayosd-client --input-volume mute-toggle"), { repeating = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("~/.config/hypr/ddc-brightness.sh up"), { repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("~/.config/hypr/ddc-brightness.sh down"), { repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("swayosd-client --output-volume raise"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("swayosd-client --output-volume lower"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("swayosd-client --output-volume mute-toggle"), { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("swayosd-client --input-volume mute-toggle"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("~/.config/hypr/ddc-brightness.sh up"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("~/.config/hypr/ddc-brightness.sh down"), { locked = true, repeating = true })
 
 -- Keyboard backlight control
-hl.bind("XF86KbdBrightnessUp", hl.dsp.exec_cmd([[sh -c 'echo $(($(cat /sys/class/leds/chromeos::kbd_backlight/brightness) + 10)) | tee /sys/class/leds/chromeos::kbd_backlight/brightness']]), { repeating = true })
-hl.bind("XF86KbdBrightnessDown", hl.dsp.exec_cmd([[sh -c 'echo $(($(cat /sys/class/leds/chromeos::kbd_backlight/brightness) - 10)) | tee /sys/class/leds/chromeos::kbd_backlight/brightness']]), { repeating = true })
+hl.bind("XF86KbdBrightnessUp", hl.dsp.exec_cmd([[sh -c 'echo $(($(cat /sys/class/leds/chromeos::kbd_backlight/brightness) + 10)) | tee /sys/class/leds/chromeos::kbd_backlight/brightness']]), { locked = true, repeating = true })
+hl.bind("XF86KbdBrightnessDown", hl.dsp.exec_cmd([[sh -c 'echo $(($(cat /sys/class/leds/chromeos::kbd_backlight/brightness) - 10)) | tee /sys/class/leds/chromeos::kbd_backlight/brightness']]), { locked = true, repeating = true })
 
 -- Requires playerctl
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })

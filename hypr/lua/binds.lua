@@ -14,7 +14,7 @@
 -- Escape hatches first: if anything below is wrong, these are what get you a
 -- terminal to run rollback.sh from.
 hl.bind("SUPER + Return", hl.dsp.exec_cmd("ghostty -e herdr"))
-hl.bind("SUPER + Q", hl.dsp.window.kill)
+hl.bind("SUPER + Q", hl.dsp.window.close())
 hl.bind("ALT + Space", hl.dsp.exec_cmd("fuzzel")) -- Launcher / menu (see $menu at the top of the old file)
 -- wlogout and hyprlock sit on Escape, not L: SUPER + L and SUPER + SHIFT + L
 -- are focus-right and move-window-right.
@@ -36,7 +36,7 @@ hl.bind("SUPER + SHIFT + Return", hl.dsp.exec_cmd("ghostty"))
 
 hl.bind("SUPER + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind("SUPER + E", hl.dsp.exec_cmd("dolphin"))
-hl.bind("SUPER + SHIFT + Space", hl.dsp.window.float{ toggle = true })
+hl.bind("SUPER + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + F", hl.dsp.window.fullscreen())
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprcap rec region -c -n -o ~/ScreenRecordings"))
 hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("hyprpicker --autocopy"))
@@ -81,7 +81,7 @@ for key, dir in pairs(arrows) do
 	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move{ direction = dir })
 end
 
-hl.bind("SUPER + X", hl.dsp.workspace.toggle_special{ name = "magic" })
+hl.bind("SUPER + X", hl.dsp.workspace.toggle_special("magic"))
 hl.bind("SUPER + SHIFT + X", hl.dsp.window.move{ workspace = "special:magic" })
 
 -- Region select -> satty annotation editor -> Enter copies + saves. Same

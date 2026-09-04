@@ -11,7 +11,7 @@
 -- $mainMod = SUPER
 
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct") -- for Qt apps
-hl.env("XCURSOR_SIZE", 24)
-hl.env("HYPRCURSOR_SIZE", 24)
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_SIZE", "24")
 
 return true
