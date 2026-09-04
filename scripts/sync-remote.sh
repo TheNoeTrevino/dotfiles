@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 #
-# Push this dotfiles repo to the remote machines (geekom, pi).
+# Keep the remote machines' ~/.config tracking this repo.
 #
-# Each host clones this repo from GitHub itself, then rsyncs the tracked
-# top-level entries into its own ~/.config. The host clones rather than
-# receiving a copy of this laptop's live ~/.config, because the live tree
-# carries gitignored runtime state -- herdr alone holds a 22M log and live
-# sockets. A clone has none of it.
+# A host's ~/.config IS a clone of this repo, the same as on the laptop, so
+# `git -C ~/.config status` works there and a sync is a fetch and a reset.
 #
-# Only entries tracked in this repo are touched, so host-local config the repo
-# knows nothing about (btop, go, gh, crush, ...) survives every run. Nothing is
-# deleted except the entries in FULL_REPLACE, which means a file this repo no
-# longer ships stays on the host until you remove it by hand.
+# git refuses to clone into a non-empty directory, and every host already has a
+# ~/.config full of things this repo knows nothing about (btop, go, opencode,
+# ...). So the first run adopts the directory in place: init, add the remote,
+# fetch, force the checkout. Those host-local entries stay untracked, and their
+# names go into .git/info/exclude, which is per-clone and never reaches here.
+#
+# Later runs are `git reset --hard origin/main`, which touches tracked files
+# only. Gitignored runtime state survives it -- herdr's log, its sockets and
+# session.json among them. Nothing here ever runs `git clean` on a host.
 #
 # Usage:
 #   scripts/sync-remote.sh                 both hosts, config then packages
@@ -19,8 +21,8 @@
 #   scripts/sync-remote.sh -n              dry run: report only, change nothing
 #   scripts/sync-remote.sh --no-packages   skip the apt phase (it needs sudo)
 #
-# Idempotent: safe to re-run. The hosts pull from GitHub, so commit and push
-# before a real run or they will copy the last pushed state, not this tree.
+# Idempotent: safe to re-run. The hosts fetch from GitHub, so commit and push
+# before a real run or they will take the last pushed state, not this tree.
 
 set -euo pipefail
 
@@ -29,14 +31,6 @@ DOTFILES_BRANCH="main"
 CLAUDE_URL="git@github.com:TheNoeTrevino/claude-config.git"
 CLAUDE_BRANCH="main"
 DEFAULT_HOSTS=(geekom pi)
-
-# Wiped before the copy, so the host ends up byte-identical to the repo.
-# nvim is here because both hosts carry their own NoeVim clone. Merging into
-# one would leave a tree that is half this repo and half whatever it had.
-FULL_REPLACE=(nvim)
-
-# Synced like everything else, only kept out of the conflict report.
-QUIET=(lazygit)
 
 # Both hosts run Ubuntu and carry all three in apt. sesh is packaged nowhere,
 # so it goes through `go install` instead. go is at /usr/bin/go on both.
@@ -52,7 +46,7 @@ while [ $# -gt 0 ]; do
   -n | --dry-run) dry=1 ;;
   --no-packages) packages=0 ;;
   -h | --help)
-    sed -n '3,23p' "$0" | sed 's/^# \?//'
+    sed -n '3,25p' "$0" | sed 's/^# \?//'
     exit 0
     ;;
   -*)
@@ -66,129 +60,98 @@ done
 
 [ ${#hosts[@]} -gt 0 ] || hosts=("${DEFAULT_HOSTS[@]}")
 
-# Phase 1 and 2: dotfiles and Claude config. Neither needs root, so this runs
-# over a plain non-interactive ssh.
+# Phase 1 and 2: ~/.config and ~/.claude. Neither needs root, so this runs over
+# a plain non-interactive ssh.
 sync_host() {
   ssh -o BatchMode=yes "$1" bash -s -- \
-    "$DOTFILES_URL" "$DOTFILES_BRANCH" "$CLAUDE_URL" "$CLAUDE_BRANCH" \
-    "$dry" "${FULL_REPLACE[*]}" "${QUIET[*]}" <<'REMOTE'
+    "$DOTFILES_URL" "$DOTFILES_BRANCH" "$CLAUDE_URL" "$CLAUDE_BRANCH" "$dry" <<'REMOTE'
 set -euo pipefail
 
 dotfiles_url=$1 dotfiles_branch=$2 claude_url=$3 claude_branch=$4 dry=$5
-read -ra full_replace <<<"$6"
-read -ra quiet <<<"$7"
 
-repo="$HOME/.dotfiles"
-dest="$HOME/.config"
-backup="$HOME/.local/state/dotfiles-sync/$(date +%Y%m%d-%H%M%S)"
+printf '### %s\n' "$(hostname)"
 
-in_list() {
-  local needle=$1 item
-  shift
-  for item in "$@"; do [ "$item" = "$needle" ] && return 0; done
-  return 1
+# adopt_repo <label> <dir> <url> <branch>
+#
+# Leaves <dir> a clone of <url> tracking <branch>, whether or not it is one
+# yet, and without disturbing anything the repo does not track.
+adopt_repo() {
+  local label=$1 dir=$2 url=$3 br=$4
+
+  if [ -d "$dir/.git" ]; then
+    git -C "$dir" remote set-url origin "$url"
+    git -C "$dir" fetch --quiet origin "$br"
+    if git -C "$dir" diff --quiet "HEAD" "origin/$br" 2>/dev/null; then
+      printf '  %-10s up to date\n' "$label"
+    else
+      printf '  %-10s %s\n' "$label" \
+        "$(git -C "$dir" diff --shortstat "HEAD" "origin/$br")"
+      git -C "$dir" diff --stat "HEAD" "origin/$br" | sed '$d;s/^/    /'
+    fi
+    [ "$dry" = 1 ] || git -C "$dir" reset --hard --quiet "origin/$br"
+    return
+  fi
+
+  # First run. The directory exists and holds files, so git cannot clone into
+  # it; init and fetch instead, then force the checkout over what is there.
+  printf '  %-10s adopting %s as a clone of %s\n' "$label" "$dir" "$url"
+  if [ "$dry" = 1 ]; then
+    printf '    (dry run, not adopted -- rerun without -n to see the file list)\n'
+    return
+  fi
+
+  mkdir -p "$dir"
+  git -C "$dir" init --quiet
+  git -C "$dir" remote add origin "$url"
+  git -C "$dir" fetch --quiet origin "$br"
+
+  # Seed the per-clone ignore list with the top-level entries the incoming tree
+  # does not carry. Without this every host-local directory reads as untracked
+  # from here on. .git/info/exclude is local to this clone, so no host name
+  # ever lands in the repo's own .gitignore.
+  local incoming
+  incoming=$(git -C "$dir" ls-tree --name-only "origin/$br")
+  for entry in $(ls -A "$dir"); do
+    [ "$entry" = ".git" ] && continue
+    printf '%s\n' "$incoming" | grep -qxF "$entry" && continue
+    printf '  %-10s excluding host-local %s\n' "$label" "$entry"
+    printf '/%s\n' "$entry" >>"$dir/.git/info/exclude"
+  done
+
+  git -C "$dir" checkout --quiet --force -B "$br" "origin/$br"
 }
 
-# Mirror the repo. `reset --hard`, not `pull`: this clone exists only to be
-# copied out of and is never edited by hand, so a re-run must not be able to
-# conflict or leave a merge half finished.
-if [ -d "$repo/.git" ]; then
-  git -C "$repo" fetch --quiet origin "$dotfiles_branch"
-  git -C "$repo" reset --hard --quiet "origin/$dotfiles_branch"
-  # A dropped submodule leaves its directory behind and reset warns about it
-  # on every later run. clean takes it out. Submodule paths stay, because
-  # they are tracked and clean never touches a tracked path.
-  git -C "$repo" clean --quiet -fd
-else
-  git clone --quiet --branch "$dotfiles_branch" "$dotfiles_url" "$repo"
+if [ "$dry" = 0 ]; then
+  # nvim is a gitlink, and `submodule update` will not clone into a non-empty
+  # directory. An earlier version of this script rsynced a plain copy there, so
+  # clear it. Every byte comes back from the NoeVim repo.
+  if [ -d "$HOME/.config/nvim" ] && [ ! -e "$HOME/.config/nvim/.git" ]; then
+    rm -rf "$HOME/.config/nvim"
+  fi
+  # Same story for tmux, whose submodule this repo dropped. Left alone it would
+  # be adopted as host-local config and excluded forever.
+  rm -rf "$HOME/.config/tmux"
 fi
-git -C "$repo" submodule update --init --recursive --quiet
 
-# The repo itself decides what ships. A gitlink such as nvim lists as one
-# entry, so cutting at the first slash gives exactly the top-level set.
-mapfile -t entries < <(
-  git -C "$repo" ls-files | cut -d/ -f1 | sort -u |
-    grep -vxe '\.gitignore' -e '\.gitmodules'
-)
+adopt_repo config "$HOME/.config" "$dotfiles_url" "$dotfiles_branch"
 
-printf '### %s -- %d entries\n' "$(hostname)" "${#entries[@]}"
+# --force discards whatever the host had, which is the point: the laptop
+# decides which commit of NoeVim every machine runs.
+if [ "$dry" = 0 ] && [ -d "$HOME/.config/.git" ]; then
+  git -C "$HOME/.config" submodule update --init --recursive --force --quiet
+fi
 
-for entry in "${entries[@]}"; do
-  src="$repo/$entry"
-  [ -e "$src" ] || continue
+adopt_repo claude "$HOME/.claude" "$claude_url" "$claude_branch"
 
-  # A submodule's .git is a file pointing back into the superproject and a
-  # plain .git is history the host has no use for. Never copy either.
-  opts=(--archive --exclude=.git --backup --backup-dir="$backup/$entry")
-  # rsync reports paths relative to the transfer root. For a directory that
-  # root is the entry, so the report needs the entry back as a prefix. For a
-  # single file the root is the file, and prefixing would name it twice.
-  if [ -d "$src" ]; then
-    from="$src/" to="$dest/$entry/" prefix="$entry/"
+# ~/.dotfiles was the staging mirror an earlier version of this script rsynced
+# out of. ~/.config is the clone now, so the mirror is dead weight.
+if [ -d "$HOME/.dotfiles" ]; then
+  if [ "$dry" = 1 ]; then
+    printf '  cleanup    would remove the obsolete ~/.dotfiles mirror\n'
   else
-    from="$src" to="$dest/$entry" prefix=""
+    rm -rf "$HOME/.dotfiles"
+    printf '  cleanup    removed the obsolete ~/.dotfiles mirror\n'
   fi
-  # --delete-excluded is what removes the host's own .git, so a FULL_REPLACE
-  # entry stops being a git checkout and becomes a plain copy.
-  if in_list "$entry" "${full_replace[@]}"; then
-    opts+=(--delete --delete-excluded)
-  fi
-
-  # --checksum only for the report. Without it rsync decides by size and
-  # mtime, so a file with identical content but a newer stamp reads as a
-  # conflict and the report cries wolf.
-  changes=$(rsync "${opts[@]}" --dry-run --itemize-changes --checksum "$from" "$to")
-
-  if ! in_list "$entry" "${quiet[@]}"; then
-    # rsync pads the change code to 11 columns, so the path starts at 13.
-    # Column 3 is 'c' when the content differs and column 4 is 's' when the
-    # size does. A code with neither is metadata only and clobbers nothing.
-    printf '%s\n' "$changes" |
-      awk -v p="$prefix" '
-        /^[<>c]f/ {
-          if (substr($1, 3, 1) == "c" || substr($1, 4, 1) == "s")
-            printf "  overwrite  %s%s\n", p, substr($0, 13)
-          next
-        }
-        /^\*deleting/ {
-          path = substr($0, 13)
-          # A FULL_REPLACE entry drops the host git checkout. That is the
-          # point of the flag, not news, so it collapses to one line.
-          if (path ~ /(^|\/)\.git\//) { gitdel++; next }
-          # Directory removals are implied by the files inside them.
-          if (path ~ /\/$/) next
-          printf "  delete     %s%s\n", p, path
-        }
-        END {
-          if (gitdel)
-            printf "  delete     %s.git/ -- %d files, the host git checkout\n", p, gitdel
-        }
-      '
-  fi
-
-  [ "$dry" = 1 ] || rsync "${opts[@]}" "$from" "$to" >/dev/null
-done
-
-# ~/.claude already exists on both hosts and holds live credentials, and git
-# refuses to clone into a non-empty directory. Init in place instead. The
-# forced checkout overwrites the tracked files and leaves everything the repo
-# gitignores -- credentials, sessions, projects, cache -- untouched.
-claude="$HOME/.claude"
-if [ "$dry" = 1 ]; then
-  if [ -d "$claude/.git" ]; then
-    printf '  claude     ~/.claude resets to origin/%s\n' "$claude_branch"
-  else
-    printf '  claude     ~/.claude becomes a clone of %s\n' "$claude_url"
-  fi
-else
-  if [ ! -d "$claude/.git" ]; then
-    mkdir -p "$claude"
-    git -C "$claude" init --quiet
-    git -C "$claude" remote add origin "$claude_url"
-  fi
-  git -C "$claude" fetch --quiet origin "$claude_branch"
-  git -C "$claude" checkout --quiet --force -B "$claude_branch" \
-    "origin/$claude_branch"
 fi
 REMOTE
 }
