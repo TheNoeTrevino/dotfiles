@@ -215,3 +215,6 @@ rows = [["state_icon", "workspace", "tab"], ["state_text", "pane"]]
 
 [ui.toast]
 delivery = "herdr"
+
+[experimental]
+kitty_graphics = true
