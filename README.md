@@ -2,7 +2,6 @@
 
 - [nvim](nvim) - neovim config (submodule)
 - [herdr](herdr/config.toml) - terminal multiplexer (replaced tmux)
-- [tmux](tmux) - old tmux config (submodule, kept until the herdr migration settles)
 - [ghostty](ghostty/config.ghostty) - terminal emulator
 - [starship](starship.toml) - shell prompt
 - [waybar](waybar/) - status bar
