@@ -6,6 +6,7 @@
 binds=$(cat <<'EOF'
 ── Apps & Launchers ──────────────────────────────
 SUPER + Return          Terminal (ghostty + herdr)
+SUPER + SHIFT + Return  Plain terminal, no herdr (for herdr --remote)
 SUPER + E               File manager (dolphin)
 ALT + Space             App launcher (fuzzel)
 SUPER + V               Clipboard history (cliphist)
