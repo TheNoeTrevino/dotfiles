@@ -35,10 +35,12 @@ hl.bind(
 
 hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("~/.config/hypr/sunset-toggle.sh"), { desc = "Nightlight" })
 
-hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("~/.config/hypr/screenshot-annotate.sh"), { desc = "Screenshot -> Annotate" })
+hl.bind(
+	"SUPER + SHIFT + S",
+	hl.dsp.exec_cmd("~/.config/hypr/screenshot-annotate.sh"),
+	{ desc = "Screenshot -> Annotate" }
+)
 
--- Plain hjkl here, not tmux's shifted jkl;. SHIFT swaps with the window in that
--- direction if one is there, otherwise moves the active window to it.
 local dirs = {
 	h = { dir = "l", name = "Left" },
 	j = { dir = "d", name = "Down" },
