@@ -7,3 +7,4 @@
 -- to hypr/lua/x.lua with no setup.
 require("lua.env")
 require("lua.look")
+require("lua.input")
