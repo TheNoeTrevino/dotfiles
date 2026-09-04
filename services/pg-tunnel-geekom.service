@@ -9,9 +9,15 @@ StartLimitIntervalSec=0
 [Service]
 Type=simple
 # -N (no remote command); the LocalForward + ServerAliveInterval/ExitOnForwardFailure
-# live on the `geekom` host block in ~/.ssh/config, so this stays the single source
-# of truth and a manual `ssh geekom` forwards identically.
-ExecStart=/usr/bin/ssh -N geekom
+# live on the `geekom-pg` host block in ~/.ssh/config, so that stays the single
+# source of truth.
+#
+# geekom-pg, not geekom: the plain alias carries ControlMaster, and under it
+# `ssh -N` hands off to a background mux and exits 0 at once, which put this
+# unit in a 10-second restart loop. The -pg alias has no ControlMaster, so ssh
+# stays in the foreground. It also keeps the forward off the plain alias, which
+# every other client uses -- `herdr --remote geekom` among them.
+ExecStart=/usr/bin/ssh -N geekom-pg
 Restart=always
 RestartSec=10
 
