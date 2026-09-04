@@ -6,3 +6,4 @@
 -- package.path is pre-seeded with this file's directory, so "lua.x" resolves
 -- to hypr/lua/x.lua with no setup.
 require("lua.env")
+require("lua.look")
