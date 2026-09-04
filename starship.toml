@@ -65,8 +65,12 @@ crust = "#11111b"
 disabled = false
 style = "fg:text"
 
+# Both remote machines run Ubuntu. starship falls back to a target emoji
+# for an OS it has no symbol for, and that was the only emoji in the whole
+# prompt. \uf31b is the nerd font Ubuntu logo, next to \uf303 for Arch.
 [os.symbols]
 Arch = "  "
+Ubuntu = "  "
 
 [username]
 show_always = false
