@@ -95,6 +95,10 @@ in_list() {
 if [ -d "$repo/.git" ]; then
   git -C "$repo" fetch --quiet origin "$dotfiles_branch"
   git -C "$repo" reset --hard --quiet "origin/$dotfiles_branch"
+  # A dropped submodule leaves its directory behind and reset warns about it
+  # on every later run. clean takes it out. Submodule paths stay, because
+  # they are tracked and clean never touches a tracked path.
+  git -C "$repo" clean --quiet -fd
 else
   git clone --quiet --branch "$dotfiles_branch" "$dotfiles_url" "$repo"
 fi
