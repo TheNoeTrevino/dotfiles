@@ -14,6 +14,7 @@
 - [wlogout](wlogout/) - logout menu
 - [btop](btop/btop.conf) - system monitor
 - [zathura](zathura/zathurarc) - PDF viewer (VimTeX preview); needs `zathura-pdf-mupdf` backend + `texlive-basic texlive-latexextra texlive-binextra`
+- [sync-remote](scripts/sync-remote.sh) - push this repo to geekom and pi (`-n` for a dry run)
 - hyprcap 
 - hyprpicker - color picker
 - hyprshot - screenshot tool
