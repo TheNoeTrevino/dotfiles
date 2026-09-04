@@ -27,11 +27,12 @@ SUPER + [1-0]           Switch to workspace 1-10
 SUPER + Shift + [1-0]   Move window to workspace 1-10
 SUPER + Ctrl + H        Previous workspace
 SUPER + Ctrl + L        Next workspace
-SUPER + S               Toggle special workspace (magic)
-SUPER + Shift + S       Move window to special workspace
+SUPER + X               Toggle special workspace (magic)
+SUPER + Shift + X       Move window to special workspace
 
 ── Capture ───────────────────────────────────────
-PrtSc                   Screenshot region (hyprshot)
+PrtSc                   Screenshot region -> annotate (satty)
+SUPER + Shift + S       Screenshot region -> annotate (satty)
 SUPER + Shift + R       Screen record region (hyprcap)
 SUPER + Shift + C       Color picker (hyprpicker)
 
