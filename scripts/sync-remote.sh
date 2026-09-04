@@ -120,10 +120,13 @@ for entry in "${entries[@]}"; do
   # A submodule's .git is a file pointing back into the superproject and a
   # plain .git is history the host has no use for. Never copy either.
   opts=(--archive --exclude=.git --backup --backup-dir="$backup/$entry")
+  # rsync reports paths relative to the transfer root. For a directory that
+  # root is the entry, so the report needs the entry back as a prefix. For a
+  # single file the root is the file, and prefixing would name it twice.
   if [ -d "$src" ]; then
-    from="$src/" to="$dest/$entry/"
+    from="$src/" to="$dest/$entry/" prefix="$entry/"
   else
-    from="$src" to="$dest/$entry"
+    from="$src" to="$dest/$entry" prefix=""
   fi
   # --delete-excluded is what removes the host's own .git, so a FULL_REPLACE
   # entry stops being a git checkout and becomes a plain copy.
@@ -141,10 +144,10 @@ for entry in "${entries[@]}"; do
     # Column 3 is 'c' when the content differs and column 4 is 's' when the
     # size does. A code with neither is metadata only and clobbers nothing.
     printf '%s\n' "$changes" |
-      awk -v e="$entry" '
+      awk -v p="$prefix" '
         /^[<>c]f/ {
           if (substr($1, 3, 1) == "c" || substr($1, 4, 1) == "s")
-            printf "  overwrite  %s/%s\n", e, substr($0, 13)
+            printf "  overwrite  %s%s\n", p, substr($0, 13)
           next
         }
         /^\*deleting/ {
@@ -154,11 +157,11 @@ for entry in "${entries[@]}"; do
           if (path ~ /(^|\/)\.git\//) { gitdel++; next }
           # Directory removals are implied by the files inside them.
           if (path ~ /\/$/) next
-          printf "  delete     %s/%s\n", e, path
+          printf "  delete     %s%s\n", p, path
         }
         END {
           if (gitdel)
-            printf "  delete     %s/.git/ -- %d files, the host git checkout\n", e, gitdel
+            printf "  delete     %s.git/ -- %d files, the host git checkout\n", p, gitdel
         }
       '
   fi
