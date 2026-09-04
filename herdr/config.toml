@@ -66,8 +66,8 @@ move_tab_next = [
 # call that table legacy, kept only for compatibility.
 # After the prefix, a plain digit and a shifted digit both arrive as ordinary
 # characters, so neither depends on the terminal's keyboard protocol.
-switch_tab = "prefix+shift+1..9"
-switch_workspace = "prefix+1..9"
+switch_tab = "alt+shift+1..9"
+switch_workspace = "alt+1..9"
 next_workspace = "alt+down"
 previous_workspace = "alt+up"
 close_tab = "prefix+shift+x"
@@ -161,15 +161,30 @@ sidebar_collapsed_mode = "compact"
 
 prompt_new_workspace_name = true
 
-# Rebuilds the old tmux status-right: git branch, date, clock.
+# Reworked tmux status-right: git branch, then the focused space name. The date
+# and clock are gone -- waybar already draws both, so they were duplicated on
+# every screen.
+#
 # Command entries run through `/bin/sh -lc` on the herdr server, in the active
 # pane's working directory, and herdr shows the LAST line of successful output.
 # Outside a repo `git rev-parse` fails, the `&&` short-circuits, and herdr
 # clears the entry. That replaces the tmux `2>/dev/null` fallback.
+#
+# The space name HAS to be a command. tab_bar_right accepts only zoom, hostname,
+# datetime, text, and command -- there is no `workspace` token here, unlike
+# [ui.sidebar.spaces] below. And because status commands run on the SERVER
+# rather than inside a pane, $HERDR_WORKSPACE_ID is not in their environment,
+# so the socket API is the only way to learn which space is focused;
+# `herdr workspace list` flags it with "focused": true. `// empty` blanks the
+# entry instead of printing "null" for an unnamed space.
+# NOTE: this needs jq on whichever machine runs the herdr server.
+#
+# The separator is U+2502 BOX DRAWINGS LIGHT VERTICAL, not ASCII `|`, so it
+# draws the full cell height.
 tab_bar_right = [
   { type = "command", command = 'b=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) && printf "  %s" "$b"', interval_seconds = 5, timeout_seconds = 2 },
-  { type = "datetime", format = "%d/%m" },
-  { type = "datetime", format = "%H:%M:%S" },
+  { type = "text", text = "│" },
+  { type = "command", command = 'herdr workspace list | jq -r ".result.workspaces[] | select(.focused) | .label // empty"', interval_seconds = 2, timeout_seconds = 2 },
 ]
 tab_bar_right_separator = " "
 
