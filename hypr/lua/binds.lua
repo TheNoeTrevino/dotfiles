@@ -16,6 +16,8 @@
 hl.bind("SUPER + Return", hl.dsp.exec_cmd("ghostty -e herdr"))
 hl.bind("SUPER + Q", hl.dsp.window.kill)
 hl.bind("ALT + Space", hl.dsp.exec_cmd("fuzzel")) -- Launcher / menu (see $menu at the top of the old file)
+-- wlogout and hyprlock sit on Escape, not L: SUPER + L and SUPER + SHIFT + L
+-- are focus-right and move-window-right.
 hl.bind("SUPER + Escape", hl.dsp.exec_cmd("wlogout"))
 hl.bind("SUPER + SHIFT + Escape", hl.dsp.exec_cmd("hyprlock")) -- Screen locker
 

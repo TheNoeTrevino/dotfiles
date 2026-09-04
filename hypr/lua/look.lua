@@ -58,6 +58,24 @@ hl.config({
 	animations = {
 		enabled = true, -- source: `enabled = yes, please :)` -> hyprlang reads leading `yes` as true
 	},
+
+	-- See https://wiki.hypr.land/Configuring/Dwindle-Layout/ for more
+	dwindle = {
+		-- pseudotile = true -- Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+		preserve_split = true, -- You probably want this
+	},
+
+	-- See https://wiki.hypr.land/Configuring/Master-Layout/ for more
+	master = {
+		new_status = "master",
+	},
+
+	-- https://wiki.hypr.land/Configuring/Variables/#misc
+	misc = {
+		force_default_wallpaper = -1, -- Set to 0 or 1 to disable the anime mascot wallpapers
+		disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
+		-- vfr = true
+	},
 })
 
 -- Default curves, see https://wiki.hypr.land/Configuring/Animations/#curves
@@ -90,29 +108,5 @@ hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" 
 hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4, bezier = "easeOutQuint", style = "fade" })
 hl.animation({ leaf = "specialWorkspaceIn", enabled = true, speed = 4, bezier = "linear", style = "fade" })
 hl.animation({ leaf = "specialWorkspaceOut", enabled = true, speed = 3, bezier = "linear", style = "fade" })
-
--- See https://wiki.hypr.land/Configuring/Dwindle-Layout/ for more
-hl.config({
-	dwindle = {
-		-- pseudotile = true -- Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-		preserve_split = true, -- You probably want this
-	},
-})
-
--- See https://wiki.hypr.land/Configuring/Master-Layout/ for more
-hl.config({
-	master = {
-		new_status = "master",
-	},
-})
-
--- https://wiki.hypr.land/Configuring/Variables/#misc
-hl.config({
-	misc = {
-		force_default_wallpaper = -1, -- Set to 0 or 1 to disable the anime mascot wallpapers
-		disable_hyprland_logo = true, -- If true disables the random hyprland logo / anime girl background. :(
-		-- vfr = true
-	},
-})
 
 return true

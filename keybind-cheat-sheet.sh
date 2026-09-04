@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Hyprland keybind cheat sheet — rendered with fuzzel --dmenu (read-only list).
-# Source of truth: ~/.config/hypr/hyprland.conf  (mainMod = SUPER)
+# Source of truth: ~/.config/hypr/lua/ (staged as hyprland-lua-wip.lua; the
+# old ~/.config/hypr/hyprland.conf remains present, unchanged, until it is
+# retired after cutover)  (mainMod = SUPER)
 # Bound in waybar via custom/keybinds.
 
 binds=$(cat <<'EOF'
