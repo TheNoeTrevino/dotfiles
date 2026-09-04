@@ -213,18 +213,21 @@ else
   echo "apt packages already present"
 fi
 
+mkdir -p "$HOME/.local/bin"
+
 # Ubuntu ships bat as batcat, because the name bat belongs to another package.
 if [ -x /usr/bin/batcat ]; then
-  mkdir -p "$HOME/.local/bin"
   ln -sfn /usr/bin/batcat "$HOME/.local/bin/bat"
 fi
 
-if ! command -v sesh >/dev/null 2>&1; then
+# Neither host carries $GOPATH/bin on PATH, and ~/.local/bin already is, so
+# the binary gets a link there rather than a new PATH entry in the shell.
+if [ ! -x "$(go env GOPATH)/bin/sesh" ]; then
   go install "$sesh_pkg"
-  echo "sesh installed to $(go env GOPATH)/bin -- add it to PATH in ~/.zshenv"
-else
-  echo "sesh already present"
 fi
+ln -sfn "$(go env GOPATH)/bin/sesh" "$HOME/.local/bin/sesh"
+
+echo "linked: $(ls "$HOME/.local/bin")"
 REMOTE
   ssh -t "$host" \
     "bash /tmp/sync-remote-packages.sh '${APT_PACKAGES[*]}' '$SESH_PKG'
