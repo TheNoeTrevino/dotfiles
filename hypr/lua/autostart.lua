@@ -51,8 +51,10 @@ hl.on("hyprland.start", function()
 	-- prefix. Passing it to a parse-time hl.exec_cmd segfaults Hyprland 0.56.2
 	-- (exit 139); from inside this handler it is fine, verified in a nested
 	-- instance.
-	hl.exec_cmd("ghostty -e herdr", { workspace = "1 silent" })
-	hl.exec_cmd("zen-browser", { workspace = "2 silent" })
+	hl.exec_cmd("discord", { workspace = "1 silent" })
+	hl.exec_cmd("ghostty -e herdr", { workspace = "2 silent" })
+	hl.exec_cmd("zen-browser", { workspace = "3 silent" })
+	hl.dispatch(hl.dsp.workspace("2"))
 end)
 
 -- GTK3 theming is declared statically in ~/.config/gtk-3.0/settings.ini
