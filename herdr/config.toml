@@ -26,6 +26,7 @@ split_horizontal = "prefix+minus" # tmux: bind - split-window -v
 close_pane = "prefix+x"           # tmux: bind x kill-pane
 zoom = "prefix+z"                 # replaces the tmux-zoom.sh run-shell hack
 copy_mode = "prefix+["            # tmux default copy-mode key
+detach = "prefix+d"
 
 # Herdr binds settings to prefix+s by default. tmux used prefix s for the
 # session chooser, so the picker takes prefix+s and settings moves.
