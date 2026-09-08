@@ -61,3 +61,4 @@ ibus
 # the manifest is edited. herdr reads the manifest itself, not this file.
 /herdr/plugins.json
 /libreoffice/4/cache/sifr_dark/200
+/herdr/release-notes.json
