@@ -16,17 +16,23 @@
 	default = current
 	autoSetupRemote = true
 
+[alias]
+	uncommit = reset HEAD^
+	recommit = commit --reuse-message=ORIG_HEAD
+
 # delta renders every diff: `git diff`, `git show`, `git log -p`, and the
 # fzf-git.sh previews. fzf-git.sh reads core.pager directly, so this one line
 # is what makes those previews stop showing raw diff text.
 [core]
 	pager = delta
+	editor = vim
 
 # `git add -p` and the other interactive commands pipe their diff through this
 # instead of core.pager. --color-only keeps delta's colors but drops the
 # decorations, because git has to parse the output back.
 [interactive]
 	diffFilter = delta --color-only
+	singlekey = true
 
 [delta]
 	# n and N jump between files in the diff.
