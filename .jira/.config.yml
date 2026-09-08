@@ -1,0 +1,315 @@
+auth_type: basic
+board:
+    id: 1643
+    name: ICRIS - DOT Linear Project
+    type: kanban
+epic:
+    name: customfield_10711
+    link: customfield_10710
+installation: Cloud
+issue:
+    fields:
+        custom:
+            - name: Included in Proposal
+              key: customfield_10110
+              schema:
+                datatype: option
+            - name: Resource Type
+              key: customfield_10111
+              schema:
+                datatype: option
+            - name: Request language
+              key: customfield_11962
+              schema:
+                datatype: sd-request-lang
+            - name: Satisfaction date
+              key: customfield_11961
+              schema:
+                datatype: datetime
+            - name: Checklists
+              key: customfield_12646
+              schema:
+                datatype: string
+            - name: Smart Checklist Progress
+              key: customfield_12647
+              schema:
+                datatype: string
+            - name: Checklist Progress %
+              key: customfield_12482
+              schema:
+                datatype: number
+            - name: Checklist Progress
+              key: customfield_12481
+              schema:
+                datatype: string
+            - name: Checklist Text (view-only)
+              key: customfield_12484
+              schema:
+                datatype: string
+            - name: Checklist Template
+              key: customfield_12483
+              schema:
+                datatype: option2
+            - name: Checklist Text
+              key: customfield_12486
+              schema:
+                datatype: string
+            - name: Checklist Completed
+              key: customfield_12485
+              schema:
+                datatype: string
+            - name: QA Tester
+              key: customfield_11950
+              schema:
+                datatype: user
+            - name: Deal Amount
+              key: customfield_11700
+              schema:
+                datatype: number
+            - name: Project Class
+              key: customfield_11702
+              schema:
+                datatype: option
+            - name: Project Type
+              key: customfield_11701
+              schema:
+                datatype: option
+            - name: Developer
+              key: customfield_11949
+              schema:
+                datatype: user
+            - name: Parent Link
+              key: customfield_11410
+              schema:
+                datatype: any
+            - name: Satisfaction
+              key: customfield_11920
+              schema:
+                datatype: sd-feedback
+            - name: Focus Areas
+              key: customfield_12613
+              schema:
+                datatype: array
+                items: Focus Areas
+            - name: Satisfaction
+              key: customfield_11922
+              schema:
+                datatype: sd-feedback
+            - name: Satisfaction
+              key: customfield_11921
+              schema:
+                datatype: sd-feedback
+            - name: Organizations
+              key: customfield_11800
+              schema:
+                datatype: array
+                items: sd-customerorganization
+            - name: Epic Status
+              key: customfield_10712
+              schema:
+                datatype: option
+            - name: Epic Color
+              key: customfield_10713
+              schema:
+                datatype: string
+            - name: Target end
+              key: customfield_11926
+              schema:
+                datatype: date
+            - name: Target start
+              key: customfield_11925
+              schema:
+                datatype: date
+            - name: Latest Update / Notes
+              key: customfield_12448
+              schema:
+                datatype: string
+            - name: Customer Task Link
+              key: customfield_12449
+              schema:
+                datatype: string
+            - name: Start date
+              key: customfield_11915
+              schema:
+                datatype: date
+            - name: Request participants
+              key: customfield_11917
+              schema:
+                datatype: array
+                items: user
+            - name: Request Type
+              key: customfield_11916
+              schema:
+                datatype: sd-customerrequesttype
+            - name: Issue color
+              key: customfield_11919
+              schema:
+                datatype: string
+            - name: Story point estimate
+              key: customfield_11918
+              schema:
+                datatype: number
+            - name: Development
+              key: customfield_11510
+              schema:
+                datatype: any
+            - name: Smart Checklist
+              key: customfield_12679
+              schema:
+                datatype: object
+            - name: Billable Work
+              key: customfield_11986
+              schema:
+                datatype: array
+                items: option
+            - name: Goals
+              key: customfield_11985
+              schema:
+                datatype: array
+                items: Goals
+            - name: Rank
+              key: customfield_10810
+              schema:
+                datatype: any
+            - name: Client
+              key: customfield_11987
+              schema:
+                datatype: array
+                items: string
+            - name: Flagged
+              key: customfield_10010
+              schema:
+                datatype: array
+                items: option
+            - name: Epic/Theme
+              key: customfield_10011
+              schema:
+                datatype: array
+                items: string
+            - name: Story Points
+              key: customfield_10013
+              schema:
+                datatype: number
+            - name: Business Value
+              key: customfield_10014
+              schema:
+                datatype: number
+            - name: Sprint
+              key: customfield_10410
+              schema:
+                datatype: array
+                items: json
+            - name: Sentiment
+              key: customfield_11984
+              schema:
+                datatype: array
+                items: sd-sentiment
+            - name: Release Version History
+              key: customfield_10015
+              schema:
+                datatype: array
+                items: version
+            - name: Project overview status
+              key: customfield_11974
+              schema:
+                datatype: string
+            - name: Vulnerability
+              key: customfield_11977
+              schema:
+                datatype: any
+            - name: Design
+              key: customfield_11976
+              schema:
+                datatype: array
+                items: design.field.name
+            - name: '[CHART] Time in Status'
+              key: customfield_10000
+              schema:
+                datatype: any
+            - name: Approvals
+              key: customfield_11210
+              schema:
+                datatype: sd-approvals
+            - name: '[CHART] Date of First Response'
+              key: customfield_10002
+              schema:
+                datatype: datetime
+            - name: Project overview key
+              key: customfield_11973
+              schema:
+                datatype: string
+            - name: AgentSessions
+              key: customfield_12811
+              schema:
+                datatype: array
+                items: admin.customfield.type.agent.sessions.name
+            - name: Open forms
+              key: customfield_11964
+              schema:
+                datatype: number
+            - name: Work item created forms
+              key: customfield_12778
+              schema:
+                datatype: array
+                items: Forms
+            - name: Billing Partner
+              key: customfield_12019
+              schema:
+                datatype: array
+                items: string
+            - name: Affected services
+              key: customfield_11963
+              schema:
+                datatype: array
+                items: service-entity-field
+            - name: Team
+              key: customfield_11600
+              schema:
+                datatype: team
+            - name: Locked forms
+              key: customfield_11966
+              schema:
+                datatype: number
+            - name: Submitted forms
+              key: customfield_11965
+              schema:
+                datatype: number
+            - name: Total forms
+              key: customfield_11967
+              schema:
+                datatype: number
+            - name: Category
+              key: customfield_11969
+              schema:
+                datatype: option
+    types:
+        - id: "3"
+          name: Task
+          handle: Task
+          subtask: false
+        - id: "10000"
+          name: Sub-task
+          handle: Sub-task
+          subtask: true
+        - id: "6"
+          name: Story
+          handle: Story
+          subtask: false
+        - id: "1"
+          name: Bug
+          handle: Bug
+          subtask: false
+        - id: "5"
+          name: Epic
+          handle: Epic
+          subtask: false
+        - id: "10219"
+          name: Bug-Subtask
+          handle: Bug-Subtask
+          subtask: true
+login: noe.trevino@respec.com
+project:
+    key: ICRIS
+    type: classic
+server: https://respec-dts.jira.com
+timezone: America/Chicago
