@@ -26,6 +26,12 @@
 [core]
 	pager = delta
 	editor = vim
+	# Git for Windows ships core.autocrlf=true in its system config, which
+	# rewrites every checked-out file to CRLF and breaks the .sh files in
+	# this repo under Git Bash. `input` means: never touch the working tree,
+	# normalise to LF on commit. That is already the Linux behaviour, so this
+	# one line makes both machines identical.
+	autocrlf = input
 
 # `git add -p` and the other interactive commands pipe their diff through this
 # instead of core.pager. --color-only keeps delta's colors but drops the
