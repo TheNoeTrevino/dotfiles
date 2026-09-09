@@ -21,9 +21,10 @@
 #         error: [string "return hl.dispatch(dpms on eDP-1)"]:1: ')' expected
 #
 # The Lua forms below were verified against live state, not just "it parsed":
-# ws_rule shows up in `hyprctl workspacerules`, and ws_move was checked by
+# ws_rule shows up in `hyprctl workspacerules`, ws_move was checked by
 # creating a headless output with `hyprctl output create headless` and watching
-# `hyprctl workspaces` follow the move.
+# `hyprctl workspaces` follow the move, and dpms_set was checked against
+# `hyprctl monitors all` dpmsStatus (see the note on that function).
 
 # ws_rule <workspace> <monitor> [default]
 # Replaces: hyprctl keyword workspace "<ws>, monitor:<mon>[, default:true]"
@@ -54,11 +55,17 @@ ws_move() {
 # dpms_set <on|off> [monitor]
 # Replaces: hyprctl dispatch dpms <state> [monitor]
 # Not named `dpms` so it cannot be confused with the hyprctl subcommand.
+#
+# GOTCHA: hl.dsp.dpms takes a TABLE, { action = "on"|"off", monitor = "<name>" }.
+# The positional form hl.dsp.dpms("on", "eDP-1") does not error -- it silently
+# turns EVERY monitor OFF and ignores the name (verified 2026-09-08 against
+# `hyprctl monitors all`). That was the "black laptop screen after login" bug:
+# on-laptop.sh called this to guarantee the panel was on and it did the opposite.
 dpms_set() {
 	if [[ -n ${2:-} ]]; then
-		hyprctl dispatch "hl.dsp.dpms(\"$1\", \"$2\")" >/dev/null
+		hyprctl dispatch "hl.dsp.dpms({ action = \"$1\", monitor = \"$2\" })" >/dev/null
 	else
-		hyprctl dispatch "hl.dsp.dpms(\"$1\")" >/dev/null
+		hyprctl dispatch "hl.dsp.dpms({ action = \"$1\" })" >/dev/null
 	fi
 }
 

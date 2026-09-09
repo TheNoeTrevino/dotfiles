@@ -35,6 +35,10 @@ hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/lid-closed.sh"),
 -- Called as a dispatcher directly rather than shelling out to
 -- `hyprctl dispatch dpms on eDP-1`: under the Lua provider hyprctl parses its
 -- argument as a Lua expression, so the old bare-word form is a syntax error.
-hl.bind("switch:off:Lid Switch", hl.dsp.dpms("on", "eDP-1"), { locked = true })
+--
+-- hl.dsp.dpms takes a TABLE. The positional form hl.dsp.dpms("on", "eDP-1")
+-- does not error -- it turns EVERY monitor OFF and ignores the name (verified
+-- 2026-09-08). It made this bind blank the panel on every lid open.
+hl.bind("switch:off:Lid Switch", hl.dsp.dpms({ action = "on", monitor = "eDP-1" }), { locked = true })
 
 return true
