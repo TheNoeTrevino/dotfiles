@@ -66,3 +66,5 @@
 	path = ~/.config/git/config-work
 [includeIf "hasconfig:remote.*.url:**/[rR][eE][sS][pP][eE][cC]/**"]
 	path = ~/.config/git/config-work
+[credential "https://git.thenoetrevino.com"]
+	provider = generic

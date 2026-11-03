@@ -15,6 +15,9 @@ local launch_menu = {}
 -- login shell so Git's /etc/profile sets up PATH, LANG, etc. before ~/.zshrc runs.
 local zsh_exe = "C:\\Users\\noe.trevino\\AppData\\Local\\Programs\\Git\\usr\\bin\\zsh.exe"
 
+-- WSL domain name is "WSL:" + the distro name exactly as `wsl -l -v` prints it (case matters).
+local wsl_domain = "WSL:archlinux"
+
 -- This is for newer wezterm vertions to use the config builder
 if wezterm.config_builder then
 	config = wezterm.config_builder()
@@ -36,7 +39,7 @@ config.disable_default_key_bindings = true
 
 -- What the *local* (Windows) domain runs when a tab is opened in it. Without this
 -- WezTerm falls back to cmd.exe. The WSL domain below is unaffected by this.
-config.default_prog = { zsh_exe, "-l" }
+config.default_prog = { "pwsh.exe", "-NoLogo" }
 
 -- Launcher entries (CTRL+SHIFT+L). Domains (WSL, local) are listed there too.
 launch_menu = {
@@ -54,6 +57,9 @@ launch_menu = {
 
 -- Keys: defaults are disabled above, so everything used must be listed here.
 keys = {
+	{ key = "=", mods = "CTRL", action = act.IncreaseFontSize },
+	{ key = "-", mods = "CTRL", action = act.DecreaseFontSize },
+	{ key = "0", mods = "CTRL", action = act.ResetFontSize },
 	-- this adds the ability to use ctrl+v to paste the system clipboard
 	{ key = "V", mods = "CTRL", action = act.PasteFrom("Clipboard") },
 	-- fuzzy launcher: pick WSL / Windows zsh / pwsh
@@ -64,6 +70,24 @@ keys = {
 		mods = "CTRL|SHIFT",
 		action = act.SpawnCommandInNewTab({ args = { zsh_exe, "-l" }, domain = { DomainName = "local" } }),
 	},
+	-- workspaces: ALT+1 = WSL (arch), ALT+2 = Windows PowerShell 7. Each is created on first use.
+	{
+		key = "1",
+		mods = "ALT",
+		action = act.SwitchToWorkspace({ name = "wsl", spawn = { domain = { DomainName = wsl_domain } } }),
+	},
+	{
+		key = "2",
+		mods = "ALT",
+		action = act.SwitchToWorkspace({
+			name = "windows",
+			spawn = { args = { "pwsh.exe", "-NoLogo" }, domain = { DomainName = "local" } },
+		}),
+	},
+	-- fuzzy pick any workspace
+	{ key = "S", mods = "CTRL|SHIFT", action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+	-- new tab in the current pane's domain (WSL tab in wsl, Windows tab in windows)
+	{ key = "T", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
 }
 
 -- There are mouse binding to mimc Windows Terminal and let you copy
@@ -105,6 +129,9 @@ config.foreground_text_hsb = {
 
 config.window_background_opacity = 0.85
 
+-- remove the Windows title bar but keep the borders so the window can still be resized
+config.window_decorations = "RESIZE"
+
 -- You can also set a solid background color
 config.colors = {
 	background = "#000000", -- or any color you want
@@ -113,6 +140,26 @@ config.colors = {
 -- IMPORTANT: Sets WSL2 as the default when opening Wezterm.
 -- (Installed distros right now: archlinux, docker-desktop — there is no "Ubuntu".)
 -- To make Windows zsh the default instead:  config.default_domain = "local"
-config.default_domain = "WSL:Ubuntu"
+config.default_domain = wsl_domain
+config.enable_kitty_graphics = true
+
+-- WSL over ssh to localhost. The WSL domain above goes through ConPTY, which
+-- drops kitty graphics; this one doesn't. WSL must already be running (sshd
+-- lives inside it). Open it from the launcher (CTRL+SHIFT+L) as "wsl-ssh".
+config.ssh_domains = {
+	{
+		name = "wsl-ssh",
+		remote_address = "127.0.0.1:22",
+		username = "noe.trevino",
+		multiplexing = "None",
+		ssh_option = { identityfile = wezterm.home_dir .. "/.ssh/wezterm_wsl" },
+	},
+}
+config.default_workspace = "wsl"
+
+-- show the current workspace name in the right side of the tab bar
+wezterm.on("update-right-status", function(window, _)
+	window:set_right_status(" " .. window:active_workspace() .. " ")
+end)
 
 return config
